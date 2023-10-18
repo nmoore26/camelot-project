@@ -8,6 +8,7 @@ import com.entities.Item.Items;
 import com.entities.Place.Places;
 import com.entities.Things.ThingNames;
 import com.storygraph.*;
+import com.sequences.*;
 public class ShortStory implements IStory{
 	private Character Bartholomew;
 	private Item openScroll;
@@ -55,6 +56,17 @@ public class ShortStory implements IStory{
 	}
 	private ActionSequence getInit() {
 		var sequence = new ActionSequence();
+		sequence.combineWith(new CharacterCreation(Bartholomew));
+		sequence.add(new Create<Place>(BHome));
+		sequence.add(new Position(Bartholomew,BHome,"Bed"));
+		sequence.add(new Position(openScroll,BHome,"Chest"));
+		sequence.add(new SetNarration("The scroll reads:"
+				+ "Dear Bartholomew,"
+				+ "		I have lost my precious jewel key. You are the best investigator in the kingdom."
+				+ "		I need you to help me find my jewel key and who stole it. Please tell my "
+				+ "		knight whether you accept my quest. "));
+		sequence.add());
+	
 		return sequence;
 		
 	}
