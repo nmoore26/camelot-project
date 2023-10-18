@@ -20,7 +20,7 @@ public class Character implements IEntity, IThing<com.entities.Character.BodyTyp
 		return clothing;
 	}
 	
-	private enum Hairstyles{
+	public enum Hairstyles{
 		Long, Spiky, Short, Short_Beard,Short_Full,
 		Ponytail, Straight, Mage, Mage_Beard, Mage_Full,
 		Musketeer, Musketeer_Beard,Musketeer_Full,
