@@ -1,7 +1,7 @@
 package com.actions;
 
 public class SetNarration implements IAction {
-	private String narration;
+	public static String narration;
 	@Override
 	public String getName() {
 		return "SetNarration";
@@ -12,6 +12,10 @@ public class SetNarration implements IAction {
 	}
 	
 	public SetNarration(String narration) {
-		this.narration = narration;
+		SetNarration.narration = narration;
+	}
+	
+	public static String getNarration() {
+		return narration;
 	}
 }

@@ -65,8 +65,8 @@ public class ShortStory implements IStory{
 				+ "		I have lost my precious jewel key. You are the best investigator in the kingdom."
 				+ "		I need you to help me find my jewel key and who stole it. Please tell my "
 				+ "		knight whether you accept my quest. "));
-		sequence.add());
-	
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new ShowMenu(true));
 		return sequence;
 		
 	}
