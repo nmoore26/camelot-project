@@ -70,4 +70,18 @@ public class ShortStory implements IStory{
 		return sequence;
 		
 	}
+	
+	private ActionSequence getStartSequence() {
+		var sequence = new ActionSequence();
+		sequence.add(new ShowMenu(false));
+		sequence.add(new EnableInput(true));
+		return sequence;
+	}
+	
+	private ActionSequence getReadScroll() {
+		var sequence = new ActionSequence();
+		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Chest")));
+		return sequence;
+	}
+	
 }
