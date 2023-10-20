@@ -87,9 +87,19 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence getExitBHome() {
 		var sequence = new ActionSequence();
-		sequence.add(new Exit(Bartholomew, Bhome.getFurniture("Door"), boolean fadeOut))
+		sequence.add(new Exit(Bartholomew, BHome.getFurniture("Door"), true));
 		return sequence;
 	}
+	
+	private ActionSequence getEnterCity() {
+		var sequence = new ActionSequence();
+		sequence.add(new Create<Place>(city));
+		sequence.combineWith(new CharacterCreation(knight));
+		sequence.add(new Position(Bartholomew,city,"Fountain"));
+		sequence.add(new Position(Bartholomew,city,"EastEnd"));
+		return sequence;
+	}
+	
 	
 	// Library Nodes
 	private ActionSequence getEnterLibrary() {
