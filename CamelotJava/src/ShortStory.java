@@ -27,10 +27,10 @@ public class ShortStory implements IStory{
 	private Character bartenderMilina;
 	private Item cupOfBeer;
 	
-	
 	public INode getRoot() {
 		return new Node("root");
 	}
+	
 	public void getThings() {
 		Bartholomew = new Character(ThingNames.Bartholomew.toString(),BodyType.D,Clothing.Peasant,Hairstyles.Short_Beard);
 		openScroll = new Item(ThingNames.openScroll.toString(),Items.Scroll);
@@ -54,6 +54,7 @@ public class ShortStory implements IStory{
 		var map = new ActionMap();
 		return map;
 	}
+	
 	private ActionSequence getInit() {
 		var sequence = new ActionSequence();
 		sequence.combineWith(new CharacterCreation(Bartholomew));
@@ -84,6 +85,11 @@ public class ShortStory implements IStory{
 		return sequence;
 	}
 	
+	private ActionSequence getExitBHome() {
+		var sequence = new ActionSequence();
+		sequence.add(new Exit(Bartholomew, Bhome.getFurniture("Door"), boolean fadeOut))
+		return sequence;
+	}
 	
 	// Library Nodes
 	private ActionSequence getEnterLibrary() {
@@ -101,16 +107,5 @@ public class ShortStory implements IStory{
 		sequence.add(new SetDialogue("")); // will come up with when I talk with Miles
 		return sequence;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
