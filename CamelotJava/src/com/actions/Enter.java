@@ -22,7 +22,7 @@ public class Enter implements IAction {
 
 	@Override
 	public boolean getShouldWait() {
-		return false;
+		return true;
 	}
 	@Override
 	public String toString() {
