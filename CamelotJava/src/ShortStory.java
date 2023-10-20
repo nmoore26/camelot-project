@@ -84,4 +84,33 @@ public class ShortStory implements IStory{
 		return sequence;
 	}
 	
+	
+	// Library Nodes
+	private ActionSequence getEnterLibrary() {
+		var sequence = new ActionSequence();
+		sequence.combineWith(new CharacterCreation(DrAliReza));
+		sequence.add(new Create<Place>(library));
+		sequence.add(new Position(DrAliReza,library,"Bookcase4"));
+		sequence.add(new Enter(Bartholomew, BHome.getFurniture("Door"),true));
+		return sequence;
+	}
+	
+	private ActionSequence getTalkLibrarian() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("")); // will come up with when I talk with Miles
+		return sequence;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
