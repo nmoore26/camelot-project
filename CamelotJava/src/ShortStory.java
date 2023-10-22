@@ -95,30 +95,62 @@ public class ShortStory implements IStory{
 		var sequence = new ActionSequence();
 		sequence.add(new Create<Place>(city));
 		sequence.combineWith(new CharacterCreation(knight));
-		sequence.add(new Position(Bartholomew,city,"Fountain"));
+		sequence.add(new Position(knight,city,"Fountain"));
 		sequence.add(new Position(Bartholomew,city,"EastEnd"));
-		sequence.add(new SetDialogue(""));
+		sequence.add(new SetDialogue("Do you accept the kings quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
 		return sequence;
 	}
 	
 	private ActionSequence getTalkToKnight() {
 		var sequence = new ActionSequence();
-		
+		sequence.add(new ShowDialogue());
 		return sequence;
 	}
 	
+	
 	private ActionSequence getEnterPrison() {
 		var sequence = new ActionSequence();
+		sequence.combineWith(new CharacterCreation(kingBoone));
+		sequence.add(new Create<Place>(kingsDungeon));
+		sequence.add(new SetDialogue("Do you accept my quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
+		sequence.add(new Position(Bartholomew,kingsDungeon,"DirtPile"));
+		sequence.add(new Position(kingBoone,kingsDungeon,"CellDoor"));
+		return sequence;
+	}
+	
+	private ActionSequence sleepInPrison() {
+		var sequence = new ActionSequence();
+		
 		return sequence;
 	}
 	
 	private ActionSequence getTalkToKing() {
 		var sequence = new ActionSequence();
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(kingBoone));
 		return sequence;
 	}
 	
+	private ActionSequence kingOpensDoor() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetDialogue("You are free to begin my quest!"));
+		sequence.add(new OpenFurniture(kingBoone, kingsDungeon.getFurniture("CellDoor")));
+		sequence.add(new ShowDialogue());
+		return sequence;
+	}
 	private ActionSequence getExitPrison() {
 		var sequence = new ActionSequence();
+		sequence.add(new Exit(Bartholomew, kingsDungeon.getFurniture("Door"), true));
+		return sequence;
+	}
+	
+	private ActionSequence getEnterCity2() {
+		var sequence = new ActionSequence();
+		sequence.add(new Create<Place>(city));
+		sequence.combineWith(new CharacterCreation(knight));
+		sequence.add(new Position(knight,city,"Fountain"));
+		sequence.add(new Position(Bartholomew,city,"EastEnd"));
+		sequence.add(new SetDialogue("Where do you want to go? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
 		return sequence;
 	}
 	
