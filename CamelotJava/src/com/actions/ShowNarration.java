@@ -10,7 +10,7 @@ public class ShowNarration implements IAction  {
 	}
 	
 	public boolean getShouldWait() {
-		return false;
+		return true;
 	}
 	
 	

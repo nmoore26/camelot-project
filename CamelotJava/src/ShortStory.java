@@ -97,6 +97,12 @@ public class ShortStory implements IStory{
 		sequence.combineWith(new CharacterCreation(knight));
 		sequence.add(new Position(Bartholomew,city,"Fountain"));
 		sequence.add(new Position(Bartholomew,city,"EastEnd"));
+		sequence.add(new SetDialogue(""));
+		return sequence;
+	}
+	
+	private ActionSequence getTalkToKnight() {
+		var sequence = new ActionSequence();
 		return sequence;
 	}
 	
