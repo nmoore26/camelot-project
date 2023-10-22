@@ -26,6 +26,7 @@ public class ShortStory implements IStory{
 	private Character patronRandy;
 	private Character bartenderMilina;
 	private Item cupOfBeer;
+	private Place greatHall;
 	
 	public INode getRoot() {
 		return new Node("root");
@@ -38,6 +39,7 @@ public class ShortStory implements IStory{
 		city = new Place(ThingNames.city.toString(), Places.City);
 		knight = new Character(ThingNames.knight.toString(),BodyType.B,Clothing.HeavyArmour,Hairstyles.Short);
 		kingBoone = new Character(ThingNames.kingBoone.toString(),BodyType.D, Clothing.King,Hairstyles.Short);
+		greatHall = new Place(ThingNames.greatHall.toString(),Places.GreatHall);
 		kingsDungeon = new Place(ThingNames.kingsDungeon.toString(),Places.Dungeon);
 		library = new Place(ThingNames.library.toString(),Places.Library);
 		DrAliReza = new Character(ThingNames.DrALiReza.toString(),BodyType.H,Clothing.Merchant,Hairstyles.Short);
@@ -48,6 +50,7 @@ public class ShortStory implements IStory{
 		patronRandy = new Character(ThingNames.patronRandy.toString());
 		bartenderMilina = new Character(ThingNames.bartenderMilina.toString(), BodyType.A, Clothing.Beggar);
 		cupOfBeer = new Item(ThingNames.cupOfBeer.toString(),Items.Cup);
+		
 	}	
 		
 	public ActionMap getMap() {
@@ -169,6 +172,52 @@ public class ShortStory implements IStory{
 		var sequence = new ActionSequence();
 		sequence.add(new SetCameraFocus(Bartholomew));
 		sequence.add(new SetDialogue("")); // will come up with when I talk with Miles
+		return sequence;
+	}
+	private ActionSequence getTalkToBandit() {
+		var sequence = new ActionSequence();
+		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetDialogue("Stop Theif you are Under arrest"));
+		return sequence;
+	}
+	private ActionSequence getKnightArrestsBandit() {
+		var sequence = new ActionSequence();
+		sequence.add(new ShowDialogue()); 
+		return sequence;
+	}
+	
+	private ActionSequence getGem() {
+		var sequence = new ActionSequence();
+		sequence.add(new OpenFurniture(Bartholomew, ruins.getFurniture("Chest")));
+		sequence.add(new SetNarration("You found the kings jewel key! return it to him!"));
+		sequence.add(new SetDialogue("Lets get to the king immediately he will be so happy that youy found his jewel key"));
+		return sequence;
+	}
+	
+	private ActionSequence talkToKnight3() {
+		var sequence = new ActionSequence();
+		sequence.add(new ShowDialogue());
+		return sequence;
+	}
+	
+	private ActionSequence getExitRuins() {
+		var sequence = new ActionSequence();
+		sequence.add(new Exit(Bartholomew, ruins.getFurniture("Exit"), true));
+		sequence.add(new Exit(knight, ruins.getFurniture("Exit"), true));
+		sequence.add(new Create<Place>(greatHall));
+		sequence.add(new Position(kingBoone,greatHall,"Throne"));
+		sequence.add(new Position(Bartholomew,greatHall,"LeftDoor"));
+		sequence.add(new SetDialogue(""));
+		
+		return sequence;
+	}
+	private ActionSequence talkToKing() {
+		var sequence = new ActionSequence();
+		sequence.add(new ShowDialogue()); 
+		return sequence;
+	}
+	private ActionSequence getCredits() {
+		var sequence = new ActionSequence(); 
 		return sequence;
 	}
 
