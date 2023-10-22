@@ -82,17 +82,13 @@ public class ShortStory implements IStory{
 	private ActionSequence getReadScroll() {
 		var sequence = new ActionSequence();
 		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Chest")));
+		sequence.add(new ShowNarration());
 		return sequence;
 	}
-	
+
 	private ActionSequence getExitBHome() {
 		var sequence = new ActionSequence();
 		sequence.add(new Exit(Bartholomew, BHome.getFurniture("Door"), true));
-		return sequence;
-	}
-	
-	private ActionSequence getEnterCity() {
-		var sequence = new ActionSequence();
 		sequence.add(new Create<Place>(city));
 		sequence.combineWith(new CharacterCreation(knight));
 		sequence.add(new Position(knight,city,"Fountain"));
@@ -103,6 +99,7 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence getTalkToKnight() {
 		var sequence = new ActionSequence();
+		sequence.add(new SetRight(knight));
 		sequence.add(new ShowDialogue());
 		return sequence;
 	}
@@ -120,7 +117,8 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence sleepInPrison() {
 		var sequence = new ActionSequence();
-		
+		sequence.add(new Sleep(Bartholomew,kingsDungeon.getFurniture("Bed")));
+		sequence.add(new SetDialogue("Now do you accept my quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
 		return sequence;
 	}
 	
@@ -141,11 +139,6 @@ public class ShortStory implements IStory{
 	private ActionSequence getExitPrison() {
 		var sequence = new ActionSequence();
 		sequence.add(new Exit(Bartholomew, kingsDungeon.getFurniture("Door"), true));
-		return sequence;
-	}
-	
-	private ActionSequence getEnterCity2() {
-		var sequence = new ActionSequence();
 		sequence.add(new Create<Place>(city));
 		sequence.combineWith(new CharacterCreation(knight));
 		sequence.add(new Position(knight,city,"Fountain"));
@@ -153,6 +146,14 @@ public class ShortStory implements IStory{
 		sequence.add(new SetDialogue("Where do you want to go? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
 		return sequence;
 	}
+	
+	private ActionSequence bartAcceptsQuest() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetDialogue("Where do you want to begin your quest? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
+		sequence.add(new ShowDialogue());
+		return sequence;
+	}
+	
 	
 	// Library Nodes
 	private ActionSequence getEnterLibrary() {

@@ -9,7 +9,7 @@ public class SetDialogue implements IAction {
 
 	@Override
 	public boolean getShouldWait() {
-		return false;
+		return true;
 	}
 	public SetDialogue(String dialogue) {
 		SetDialogue.dialogue = dialogue;
