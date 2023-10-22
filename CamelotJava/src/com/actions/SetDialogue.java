@@ -3,6 +3,7 @@ package com.actions;
 public class SetDialogue implements IAction {
 	public String dialogue;
 	@Override
+	
 	public String getName() {
 		return null;
 	}

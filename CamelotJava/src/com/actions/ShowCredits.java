@@ -1,13 +1,11 @@
-
 package com.actions;
 
-public class ShowDialogue implements IAction  {
+public class ShowCredits implements IAction  {
 	
-	public ShowDialogue() {
-		
+	public ShowCredits() {
 	}
 	public String getName() {
-		return "ShowDialogue";
+		return "ShowCredits";
 	}
 	
 	public boolean getShouldWait() {
