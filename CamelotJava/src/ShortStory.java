@@ -176,8 +176,10 @@ public class ShortStory implements IStory{
 	}
 	private ActionSequence getTalkToBandit() {
 		var sequence = new ActionSequence();
+		sequence.add(new SetRight(banditCaspera));
 		sequence.add(new ShowDialogue()); 
 		sequence.add(new SetDialogue("Stop Theif you are Under arrest"));
+		sequence.add(new SetRight(knight));
 		return sequence;
 	}
 	private ActionSequence getKnightArrestsBandit() {
@@ -214,11 +216,14 @@ public class ShortStory implements IStory{
 	private ActionSequence talkToKing() {
 		var sequence = new ActionSequence();
 		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetCredits("You Win"));
 		return sequence;
 	}
 	private ActionSequence getCredits() {
 		var sequence = new ActionSequence(); 
+		sequence.add(new ShowCredits());
 		return sequence;
+		
 	}
 
 }
