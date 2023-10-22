@@ -103,9 +103,24 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence getTalkToKnight() {
 		var sequence = new ActionSequence();
+		
 		return sequence;
 	}
 	
+	private ActionSequence getEnterPrison() {
+		var sequence = new ActionSequence();
+		return sequence;
+	}
+	
+	private ActionSequence getTalkToKing() {
+		var sequence = new ActionSequence();
+		return sequence;
+	}
+	
+	private ActionSequence getExitPrison() {
+		var sequence = new ActionSequence();
+		return sequence;
+	}
 	
 	// Library Nodes
 	private ActionSequence getEnterLibrary() {
