@@ -79,6 +79,7 @@ public class ShortStory implements IStory{
 	}
 	
 	private ActionSequence getInit() {
+		
 		var sequence = new ActionSequence();
 		sequence.combineWith(new CharacterCreation(Bartholomew));
 		sequence.add(new Create<Place>(BHome));
