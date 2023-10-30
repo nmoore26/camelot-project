@@ -57,6 +57,12 @@ public class ShortStory implements IStory{
 		var map = new ActionMap();
 		return map;
 	}
+	 private enum NodeLabels {
+		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,sleepInPrision,TalkToKing,kingOpensDoor, ExitPrison,
+		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf5,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
+		 EnterTavern,Talkwithbartender,TalkwithRandy,ExitTavern, EnterRuins,WalktoPlant,TalktoBandit,KnightArrestBandit,JewelKey, TalktoKnight3,
+		 ExitRuins, TalktoKing2,Credits
+	 }
 	
 	private ActionSequence getInit() {
 		var sequence = new ActionSequence();
@@ -151,7 +157,7 @@ public class ShortStory implements IStory{
 		return sequence;
 	}
 	
-	private ActionSequence bartAcceptsQuest() {
+	private ActionSequence getbartAcceptsQuest() {
 		var sequence = new ActionSequence();
 		sequence.add(new SetDialogue("Where do you want to begin your quest? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
 		sequence.add(new ShowDialogue());
