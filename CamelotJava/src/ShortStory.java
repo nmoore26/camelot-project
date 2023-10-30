@@ -77,6 +77,12 @@ public class ShortStory implements IStory{
 		map.add(NodeLabels.Init.toString(), getCredits());
 		return map;
 	}
+	 private enum NodeLabels {
+		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,sleepInPrision,TalkToKing,kingOpensDoor, ExitPrison,
+		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf5,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
+		 EnterTavern,Talkwithbartender,TalkwithRandy,ExitTavern, EnterRuins,WalktoPlant,TalktoBandit,KnightArrestBandit,JewelKey, TalktoKnight3,
+		 ExitRuins, TalktoKing2,Credits
+	 }
 	
 	private ActionSequence getInit() {
 		
@@ -106,6 +112,7 @@ public class ShortStory implements IStory{
 	private ActionSequence getReadScroll() {
 		var sequence = new ActionSequence();
 		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Chest")));
+		sequence.add(new Pickup(Bartholomew,openScroll,BHome.getFurniture("Chest")));
 		sequence.add(new ShowNarration());
 		return sequence;
 	}
@@ -123,8 +130,8 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence getTalkToKnight() {
 		var sequence = new ActionSequence();
-		sequence.add(new SetRight(knight));
 		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(knight));
 		return sequence;
 	}
 	
@@ -171,7 +178,7 @@ public class ShortStory implements IStory{
 		return sequence;
 	}
 	
-	private ActionSequence bartAcceptsQuest() {
+	private ActionSequence getbartAcceptsQuest() {
 		var sequence = new ActionSequence();
 		sequence.add(new SetDialogue("Where do you want to begin your quest? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
 		sequence.add(new ShowDialogue());
@@ -191,29 +198,215 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence getTalkLibrarian() {
 		var sequence = new ActionSequence();
+		sequence.add(new Position(Bartholomew,library,"Bookcase4"));
+		sequence.add(new Position(DrAliReza, library,"Stand"));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("")); // will come up with when I talk with Miles
+		sequence.add(new SetDialogue("Good Morning Professor! How are you?")); 
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(DrAliReza));
+		sequence.add(new SetDialogue("I am doing good Bartholomew. How can I help you?"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(DrAliReza));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("I am looking for the Kings's lost jewel key. Can I look around here to see if I can find it")); 
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(DrAliReza));
+		sequence.add(new SetDialogue("Sure!"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(DrAliReza));
+		sequence.add(new HideDialogue());
+		sequence.add(new EnableInput(true));
 		return sequence;
 	}
+	
+	private ActionSequence getgoToDesk() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("Wow, what a pretty flower! It doesn't look like the key is here."));
+		sequence.add(new ShowDialogue());
+		sequence.add(new HideDialogue());
+		sequence.add(new EnableInput(true));
+		return sequence;
+	}
+	
+	private ActionSequence getgoToBookshelf5() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("So many books! After this quest I'll have to read some. It doesn't look like"
+				+ "the key is here."));
+		sequence.add(new ShowDialogue());
+		sequence.add(new HideDialogue());
+		sequence.add(new EnableInput(true));
+		return sequence;
+	}
+	private ActionSequence gettalkToLibrarian2() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("Thank you Professor! It looks like the key isn't here! See you later!")); 
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(DrAliReza));
+		sequence.add(new SetDialogue("See you soon!"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(DrAliReza));
+		sequence.add(new HideDialogue());
+		sequence.add(new EnableInput(true));
+		return sequence;
+	}
+	private ActionSequence getExitLibrary() {
+		var sequence = new ActionSequence();
+		sequence.add(new Exit(Bartholomew,library.getFurniture("Door"),true));
+		return sequence;
+	}
+	private ActionSequence getKnightDialogueFromLibrary() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetDialogue("Where do you want to go to next?[Library|Library][Tavern|Tavern][Ruins|Ruins]"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(knight));
+		sequence.add(new HideDialogue());
+		return sequence;
+	}
+	
+	private ActionSequence getEntertavern() {
+		var sequence = new ActionSequence();
+		sequence.add(new Enter(Bartholomew, tavern.getFurniture("Door"),true));
+		sequence.combineWith(new CharacterCreation(bartenderMilina));
+		sequence.add(new Position(bartenderMilina,tavern,"Bar.behind"));
+		sequence.combineWith(new CharacterCreation(patronRandy));
+		sequence.add(new Position(patronRandy, tavern, "Table.BackLeft"));
+		sequence.add(new Position(cupOfBeer,tavern,"Bar"));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		return sequence;
+	}
+	
+	private ActionSequence getTalkToBartender() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("Hey Milena, how are you?"));	
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(bartenderMilina));
+		sequence.add(new SetDialogue("Hey Bartholomew! I'm doing good, just preparing for the dinner rush. What can I do for you today?"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(bartenderMilina));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("I'm looking for the king's jewel key, have you heard anything?"));	
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(bartenderMilina));
+		sequence.add(new SetDialogue("Hey... you didn't hear this from me but Randy over there may know something. I'd ask him."));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(bartenderMilina));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("Thanks! Will do! Save a beer for me, will you?"));	
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(bartenderMilina));
+		sequence.add(new SetDialogue("Sure thing!"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(bartenderMilina));
+		sequence.add(new HideDialogue());
+		return sequence;
+	}
+	private ActionSequence gettalkWithPatron() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("Hey Randy, your just the man I wanted to see."));	
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(patronRandy));
+		sequence.add(new SetDialogue("And why is that?"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(patronRandy));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("Someone told me that you knew who took the king's jewel key"));	
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(patronRandy));
+		sequence.add(new SetDialogue("I don't know what your talking about but you should get out of here!"));	
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(patronRandy));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("Look... I'm just doing my job. I wonder what your Majesty would think if he knew that you knew where his jewel key was?"));	
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(patronRandy));
+		sequence.add(new SetDialogue("Woah man.. chill. All I know is that some bandit who goes by the name of Caspera was acting very suspicious last night. Please don't tell the king!"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(patronRandy));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("I won't this time Thanks for the heads up!"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new HideDialogue());
+		return sequence;
+	}
+	private ActionSequence getLeaveTavern() {
+		var sequence = new ActionSequence();
+		sequence.add(new Exit(Bartholomew,tavern.getFurniture("Door"),true));
+		sequence.add(new Create<Place>(ruins));
+		sequence.combineWith(new CharacterCreation(banditCaspera));
+		sequence.add(new Position(banditCaspera,ruins,"Chest"));
+		return sequence;
+	}
+	private ActionSequence getEnterRuins() {
+		var sequence = new ActionSequence();
+		sequence.add(new Enter(Bartholomew, ruins.getFurniture("Exit"),true));// ask dr.ali reza how to enter ruins again
+		sequence.add(new SetCameraFocus(Bartholomew));
+		return sequence;
+	}
+	private ActionSequence getwalkToPlant() {
+		var sequence = new ActionSequence();
+		sequence.add(new SetDialogue("I wonder where this Caspera is? I don't see her over here by this pretty plant"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new HideDialogue());
+		return sequence;
+		
+	}
+	
 	private ActionSequence getTalkToBandit() {
 		var sequence = new ActionSequence();
-		sequence.add(new SetRight(banditCaspera));
+		sequence.add(new Position(knight,ruins,"DirtPile"));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("Stop Caspera you are under arrest. Where is the jewel key?"));
 		sequence.add(new ShowDialogue()); 
-		sequence.add(new SetDialogue("Stop Theif you are Under arrest"));
-		sequence.add(new SetRight(knight));
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(banditCaspera));
+		sequence.add(new SetDialogue("Uhhgh... you caught me! How! I thought if I hid it in this chest, that you'll never find it"));
+		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetRight(banditCaspera));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("Well you thought wrong, knight arrest her immediately!"));
+		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new HideDialogue());
 		return sequence;
 	}
 	private ActionSequence getKnightArrestsBandit() {
 		var sequence = new ActionSequence();
+		sequence.add(new SetCameraFocus(knight));
+		sequence.add(new SetDialogue("You're under arrest!"));
 		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetRight(knight));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new Laugh(Bartholomew));
+		sequence.add(new Position(banditCaspera)); // bandit diassapears
+		sequence.add(new Position(knight));// knight dissapears
 		return sequence;
 	}
 	
-	private ActionSequence getGem() {
+	private ActionSequence getJewelKey() {
 		var sequence = new ActionSequence();
 		sequence.add(new OpenFurniture(Bartholomew, ruins.getFurniture("Chest")));
-		sequence.add(new SetNarration("You found the kings jewel key! return it to him!"));
-		sequence.add(new SetDialogue("Lets get to the king immediately he will be so happy that youy found his jewel key"));
+		sequence.add(new SetNarration("You found the kings jewel key! Return it to him!"));
+		sequence.add(new ShowNarration());
+		sequence.add(new HideNarration());
+		sequence.add(new SetDialogue("Lets get to the king immediately he will be so happy that you found his jewel key"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new HideDialogue());
 		return sequence;
 	}
 	
@@ -236,8 +429,21 @@ public class ShortStory implements IStory{
 	}
 	private ActionSequence talkToKing() {
 		var sequence = new ActionSequence();
+		sequence.add(new Enter(Bartholomew,greatHall.getFurniture("Door"),true));
+		sequence.add(new Position(kingBoone,greatHall,"Throne"));
+		sequence.add(new SetCameraFocus(kingBoone));
+		sequence.add(new SetDialogue("Thank you so much Bartholomew for finding my jewel key! How can I repay you?"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(kingBoone));
+		sequence.add(new SetCameraFocus(Bartholomew));
+		sequence.add(new SetDialogue("It was an honor my king! Could you tell me what does jewel key open? "));
 		sequence.add(new ShowDialogue()); 
-		sequence.add(new SetCredits("You Win"));
+		sequence.add(new SetRight(Bartholomew));
+		sequence.add(new SetCameraFocus(kingBoone));
+		sequence.add(new SetDialogue("Well.. no.. a new home would have to suffice"));
+		sequence.add(new ShowDialogue());
+		sequence.add(new SetRight(kingBoone));
+		sequence.add(new SetCredits("Congratulations! You Win"));
 		return sequence;
 	}
 	private ActionSequence getCredits() {
