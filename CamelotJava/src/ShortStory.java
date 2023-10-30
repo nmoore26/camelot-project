@@ -94,6 +94,7 @@ public class ShortStory implements IStory{
 		map.add(NodeLabels.Init.toString(), getExitRuins());
 		map.add(NodeLabels.Init.toString(), talkToKing());
 		map.add(NodeLabels.Init.toString(), getCredits());
+		//push
 		return map;
 	}
 	 private enum NodeLabels {
