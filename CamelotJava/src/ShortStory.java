@@ -65,12 +65,23 @@ public class ShortStory implements IStory{
 		map.add(NodeLabels.Init.toString(), getTalkToKing());
 		map.add(NodeLabels.Init.toString(), kingOpensDoor());
 		map.add(NodeLabels.Init.toString(), getExitPrison());
-		map.add(NodeLabels.Init.toString(), bartAcceptsQuest());
+		map.add(NodeLabels.Init.toString(), getbartAcceptsQuest());
 		map.add(NodeLabels.Init.toString(), getEnterLibrary());
 		map.add(NodeLabels.Init.toString(), getTalkLibrarian());
+		map.add(NodeLabels.Init.toString(), getgoToDesk());
+		map.add(NodeLabels.Init.toString(), getgoToBookshelf5());
+		map.add(NodeLabels.Init.toString(), gettalkToLibrarian2());
+		map.add(NodeLabels.Init.toString(), getExitLibrary());
+		map.add(NodeLabels.Init.toString(), getKnightDialogueFromLibrary());
+		map.add(NodeLabels.Init.toString(), getEntertavern());
+		map.add(NodeLabels.Init.toString(), getTalkToBartender());
+		map.add(NodeLabels.Init.toString(), gettalkWithPatron());
+		map.add(NodeLabels.Init.toString(), getLeaveTavern());
+		map.add(NodeLabels.Init.toString(), getEnterRuins());
+		map.add(NodeLabels.Init.toString(), getwalkToPlant());
 		map.add(NodeLabels.Init.toString(), getTalkToBandit());
 		map.add(NodeLabels.Init.toString(), getKnightArrestsBandit());
-		map.add(NodeLabels.Init.toString(), getGem());
+		map.add(NodeLabels.Init.toString(), getJewelKey());
 		map.add(NodeLabels.Init.toString(), talkToKnight3());
 		map.add(NodeLabels.Init.toString(), getExitRuins());
 		map.add(NodeLabels.Init.toString(), talkToKing());
@@ -81,7 +92,7 @@ public class ShortStory implements IStory{
 		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,sleepInPrision,TalkToKing,kingOpensDoor, ExitPrison,
 		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf5,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
 		 EnterTavern,Talkwithbartender,TalkwithRandy,ExitTavern, EnterRuins,WalktoPlant,TalktoBandit,KnightArrestBandit,JewelKey, TalktoKnight3,
-		 ExitRuins, TalktoKing2,Credits
+		 ExitRuins, TalktoKing2,Credits, getGem
 	 }
 	
 	private ActionSequence getInit() {
