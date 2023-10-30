@@ -55,6 +55,26 @@ public class ShortStory implements IStory{
 		
 	public ActionMap getMap() {
 		var map = new ActionMap();
+		map.add(NodeLabels.Init.toString(), getInit());
+		map.add(NodeLabels.Init.toString(), getStartSequence());
+		map.add(NodeLabels.Init.toString(), getReadScroll());
+		map.add(NodeLabels.Init.toString(), getExitBHome());
+		map.add(NodeLabels.Init.toString(), getTalkToKnight());
+		map.add(NodeLabels.Init.toString(), getEnterPrison());
+		map.add(NodeLabels.Init.toString(), sleepInPrison());
+		map.add(NodeLabels.Init.toString(), getTalkToKing());
+		map.add(NodeLabels.Init.toString(), kingOpensDoor());
+		map.add(NodeLabels.Init.toString(), getExitPrison());
+		map.add(NodeLabels.Init.toString(), bartAcceptsQuest());
+		map.add(NodeLabels.Init.toString(), getEnterLibrary());
+		map.add(NodeLabels.Init.toString(), getTalkLibrarian());
+		map.add(NodeLabels.Init.toString(), getTalkToBandit());
+		map.add(NodeLabels.Init.toString(), getKnightArrestsBandit());
+		map.add(NodeLabels.Init.toString(), getGem());
+		map.add(NodeLabels.Init.toString(), talkToKnight3());
+		map.add(NodeLabels.Init.toString(), getExitRuins());
+		map.add(NodeLabels.Init.toString(), talkToKing());
+		map.add(NodeLabels.Init.toString(), getCredits());
 		return map;
 	}
 	
@@ -225,5 +245,5 @@ public class ShortStory implements IStory{
 		return sequence;
 		
 	}
-
+	
 }
