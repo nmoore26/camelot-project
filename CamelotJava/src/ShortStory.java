@@ -185,7 +185,6 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence kingOpensDoor() {
 		var sequence = new ActionSequence();
-		sequence.add(new HideDialogue());
 		sequence.add(new SetDialogue("You are free to begin my quest!"));
 		sequence.add(new OpenFurniture(kingBoone, kingsDungeon.getFurniture("CellDoor")));
 		sequence.add(new ShowDialogue());
@@ -195,7 +194,6 @@ public class ShortStory implements IStory{
 	}
 	private ActionSequence getExitPrison() {
 		var sequence = new ActionSequence();
-		sequence.add(new HideDialogue());
 		sequence.add(new Exit(Bartholomew, kingsDungeon.getFurniture("Door"), true));
 		sequence.add(new Create<Place>(city));
 		sequence.combineWith(new CharacterCreation(knight));
