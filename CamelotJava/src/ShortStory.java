@@ -32,13 +32,37 @@ public class ShortStory implements IStory{
 	
 	public INode getRoot() {
 		var root = new Node(NodeLabels.Init.toString());
-		root.addChild(new SelectionChoice("Start"), start);
 		var start = new Node(NodeLabels.Start.toString());
 		var ReadScroll = new Node(NodeLabels.ReadScroll.toString());
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
 		var TalkToKnight = new Node(NodeLabels.TalkToKnight.toString());
 		var EnterPrison = new Node(NodeLabels.EnterPrison.toString());
-		var 
+		var sleepInPrison = new Node(NodeLabels.sleepInPrison.toString());
+		var TalkToKing = new Node(NodeLabels.TalkToKing.toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		var  = new Node(NodeLabels..toString());
+		root.addChild(new SelectionChoice("Start"), start);
 		
 		return new Node("root");
 	}
