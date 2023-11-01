@@ -64,43 +64,42 @@ public class ShortStory implements IStory{
 	public ActionMap getMap() {
 		var map = new ActionMap();
 		map.add(NodeLabels.Init.toString(), getInit());
-		map.add(NodeLabels.Init.toString(), getStartSequence());
-		map.add(NodeLabels.Init.toString(), getReadScroll());
-		map.add(NodeLabels.Init.toString(), getExitBHome());
-		map.add(NodeLabels.Init.toString(), getTalkToKnight());
-		map.add(NodeLabels.Init.toString(), getEnterPrison());
-		map.add(NodeLabels.Init.toString(), sleepInPrison());
-		map.add(NodeLabels.Init.toString(), getTalkToKing());
-		map.add(NodeLabels.Init.toString(), kingOpensDoor());
-		map.add(NodeLabels.Init.toString(), getExitPrison());
-		map.add(NodeLabels.Init.toString(), getbartAcceptsQuest());
-		map.add(NodeLabels.Init.toString(), getEnterLibrary());
-		map.add(NodeLabels.Init.toString(), getTalkLibrarian());
-		map.add(NodeLabels.Init.toString(), getgoToDesk());
-		map.add(NodeLabels.Init.toString(), getgoToBookshelf5());
-		map.add(NodeLabels.Init.toString(), gettalkToLibrarian2());
-		map.add(NodeLabels.Init.toString(), getExitLibrary());
-		map.add(NodeLabels.Init.toString(), getKnightDialogueFromLibrary());
-		map.add(NodeLabels.Init.toString(), getEntertavern());
-		map.add(NodeLabels.Init.toString(), getTalkToBartender());
-		map.add(NodeLabels.Init.toString(), gettalkWithPatron());
-		map.add(NodeLabels.Init.toString(), getLeaveTavern());
-		map.add(NodeLabels.Init.toString(), getEnterRuins());
-		map.add(NodeLabels.Init.toString(), getwalkToPlant());
-		map.add(NodeLabels.Init.toString(), getTalkToBandit());
-		map.add(NodeLabels.Init.toString(), getKnightArrestsBandit());
-		map.add(NodeLabels.Init.toString(), getJewelKey());
-		map.add(NodeLabels.Init.toString(), talkToKnight3());
-		map.add(NodeLabels.Init.toString(), getExitRuins());
-		map.add(NodeLabels.Init.toString(), talkToKing());
-		map.add(NodeLabels.Init.toString(), getCredits());
+		map.add(NodeLabels.Start.toString(), getStartSequence());
+		map.add(NodeLabels.ReadScroll.toString(), getReadScroll());
+		map.add(NodeLabels.ExitBHome.toString(), getExitBHome());
+		map.add(NodeLabels.TalkToKnight.toString(), getTalkToKnight());
+		map.add(NodeLabels.EnterPrison.toString(), getEnterPrison());
+		map.add(NodeLabels.sleepInPrison.toString(), sleepInPrison());
+		map.add(NodeLabels.TalkToKing.toString(), getTalkToKing());
+		map.add(NodeLabels.kingOpensDoor.toString(), kingOpensDoor());
+		map.add(NodeLabels.ExitPrison.toString(), getExitPrison());
+		map.add(NodeLabels.bartAcceptsQuest.toString(), getbartAcceptsQuest());
+		map.add(NodeLabels.EnterLibrary.toString(), getEnterLibrary());
+		map.add(NodeLabels.TalkLibrarian.toString(), getTalkLibrarian());
+		map.add(NodeLabels.Desk.toString(), getgoToDesk());
+		map.add(NodeLabels.Bookshelf5.toString(), getgoToBookshelf5());
+		map.add(NodeLabels.TalkLibrarian2.toString(), gettalkToLibrarian2());
+		map.add(NodeLabels.ExitLibrary.toString(), getExitLibrary());
+		map.add(NodeLabels.KnightDialoguefromLibrary.toString(), getKnightDialogueFromLibrary());
+		map.add(NodeLabels.EnterTavern.toString(), getEntertavern());
+		map.add(NodeLabels.Talkwithbartender.toString(), getTalkToBartender());
+		map.add(NodeLabels.TalkwithRandy.toString(), gettalkWithPatron());
+		map.add(NodeLabels.ExitTavern.toString(), getLeaveTavern());
+		map.add(NodeLabels.EnterRuins.toString(), getEnterRuins());
+		map.add(NodeLabels.WalktoPlant.toString(), getwalkToPlant());
+		map.add(NodeLabels.TalktoBandit.toString(), getTalkToBandit());
+		map.add(NodeLabels.KnightArrestBandit.toString(), getKnightArrestsBandit());
+		map.add(NodeLabels.JewelKey.toString(), getJewelKey());
+		map.add(NodeLabels.ExitRuins.toString(), getExitRuins());
+		map.add(NodeLabels.TalktoKing2.toString(), talkToKing());
+		map.add(NodeLabels.Credits.toString(), getCredits());
 		return map;
 	}
 	 private enum NodeLabels {
-		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,sleepInPrision,TalkToKing,kingOpensDoor, ExitPrison,
+		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
 		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf5,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
 		 EnterTavern,Talkwithbartender,TalkwithRandy,ExitTavern, EnterRuins,WalktoPlant,TalktoBandit,KnightArrestBandit,JewelKey, TalktoKnight3,
-		 ExitRuins, TalktoKing2,Credits, getGem
+		 ExitRuins, TalktoKing2,Credits,
 	 }
 	
 	private ActionSequence getInit() {
