@@ -7,6 +7,9 @@ import com.entities.Character.Hairstyles;
 import com.entities.Item.Items;
 import com.entities.Place.Places;
 import com.entities.Things.ThingNames;
+import com.playerInput.ActionChoice;
+import com.playerInput.ActionChoice.Icons;
+import com.playerInput.*;
 import com.playerInput.SelectionChoice;
 import com.storygraph.*;
 import com.sequences.*;
@@ -62,7 +65,17 @@ public class ShortStory implements IStory{
 		var ExitRuins = new Node(NodeLabels.ExitRuins.toString());
 		var TalktoKing2 = new Node(NodeLabels.TalktoKing2.toString());
 		var Credits = new Node(NodeLabels.Credits.toString());
+		
 		root.addChild(new SelectionChoice("Start"), start);
+		
+		start.addChild(
+			new ActionChoice(
+				ActionNames.OpenFurniture.toString(),
+				BHome.getFurniture("Chest"),
+				Icons.chest,
+				"Open chest",
+				true),
+			ReadScroll);
 		
 		return new Node("root");
 	}
