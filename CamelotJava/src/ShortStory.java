@@ -7,8 +7,10 @@ import com.entities.Character.Hairstyles;
 import com.entities.Item.Items;
 import com.entities.Place.Places;
 import com.entities.Things.ThingNames;
+import com.playerInput.SelectionChoice;
 import com.storygraph.*;
 import com.sequences.*;
+
 public class ShortStory implements IStory{
 	private Character Bartholomew;
 	private Item openScroll;
@@ -30,6 +32,7 @@ public class ShortStory implements IStory{
 	
 	public INode getRoot() {
 		var root = new Node(NodeLabels.Init.toString());
+		root.addChild(new SelectionChoice("Start"), start);
 		var start = new Node(NodeLabels.Start.toString());
 		var ReadScroll = new Node(NodeLabels.ReadScroll.toString());
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
