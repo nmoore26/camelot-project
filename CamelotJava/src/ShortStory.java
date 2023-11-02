@@ -79,7 +79,16 @@ public class ShortStory implements IStory{
 		
 		return new Node("root");
 	}
-	
+	public enum ActionNames{
+
+AddToList, Attack, Bash, Cast, CheckVersion ,Clap ,ClearDialog ,ClearList, CloseFurniture, CreateCharacter,WalkToSpot, Wave,
+CreateEffect, CreateItem, CreatePlace, Dance, DanceTogether, Die, DisableEffect, DisableIcon, DisableInput, Draw,
+Drink, EnableEffect, EnableIcon, EnableInput, Enter, Exit, Face, FadeIn, FadeOut, Give, HideCredits, HideDialog, HideFurniture, 
+HideList, HideMenu, HideNarration, Kneel, Laugh, LookAt, MoveAway, OpenFurniture, Pickup, PlaySound, Pocket, Put, Putdown, Quit,
+RemoveFromList, Reset, Revive, SetCameraBlend, SetCameraFocus, SetCameraMode, SetClothing, SetCredits, SetDay, SetDialog,
+SetExpression, SetEyeColor, SetHairColorSetHairStyle, SetLeft, SetNarration, SetNight,SetPosition, SetRight, SetSkinColor, SetTitle,
+Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarration, Sit, Sleep, StopSound, Take, Unpocket, Wait, WalkTo,
+	}
 	public void getThings() {
 		Bartholomew = new Character(ThingNames.Bartholomew.toString(),BodyType.D,Clothing.Peasant,Hairstyles.Short_Beard);
 		openScroll = new Item(ThingNames.openScroll.toString(),Items.Scroll);
