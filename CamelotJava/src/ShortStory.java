@@ -11,6 +11,7 @@ import com.playerInput.ActionChoice;
 import com.playerInput.ActionChoice.Icons;
 import com.playerInput.*;
 import com.playerInput.SelectionChoice;
+import com.playerInput.PositionChoice.Condition;
 import com.storygraph.*;
 import com.sequences.*;
 
@@ -40,6 +41,7 @@ public class ShortStory implements IStory{
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
 		var TalkToKnight = new Node(NodeLabels.TalkToKnight.toString());
 		var EnterPrison = new Node(NodeLabels.EnterPrison.toString());
+		var StayInPrison = new Node(NodeLabels.StayInPrison.toString());
 		var sleepInPrison = new Node(NodeLabels.sleepInPrison.toString());
 		var TalkToKing = new Node(NodeLabels.TalkToKing.toString());
 		var kingOpensDoor = new Node(NodeLabels.kingOpensDoor.toString());
@@ -90,18 +92,78 @@ public class ShortStory implements IStory{
 		
 		TalkToKnight.addChild(new SelectionChoice("DeclineQuest"), EnterPrison);
 		
-		EnterPrison.addChild(new SelectionChoice("AcceptQuest"), kingOpensDoor);
+		EnterPrison.addChild(
+			new ActionChoice(
+				ActionNames.Face.toString(),
+				kingBoone,
+				Icons.talk,
+				"Face King",
+				true),
+			TalkToKing);
+		
+		TalkToKing.addChild(new SelectionChoice("AcceptQuest"), kingOpensDoor);
+		
+		TalkToKing.addChild(new SelectionChoice("DeclineQuest"), StayInPrison);
 		
 		kingOpensDoor.addChild(
 			new ActionChoice(
 				ActionNames.Exit.toString(),
-				kingsDungeon.getFurniture("Door"),
+				kingsDungeon.getFurniture("CellDoor"),
 				Icons.exit,
 				"Open door",
 				true),
-			bartAcceptsQuest);
+			ExitPrison);
 		
-		TalkToKnight.addChild(new SelectionChoice("DeclineQuest"), EnterPrison);
+		StayInPrison.addChild(
+			new ActionChoice(
+				ActionNames.Sleep.toString(),
+				kingsDungeon.getFurniture("Bed"),
+				Icons.sleep,
+				"Sleep",
+				true),
+			sleepInPrison);
+		
+		sleepInPrison.addChild(
+			new ActionChoice(
+				ActionNames.Sleep.toString(),
+				kingsDungeon.getFurniture("Bed"),
+				Icons.sleep,
+				"Sleep",
+				true),
+			TalkToKing);
+		
+		ExitPrison.addChild(new SelectionChoice("Library"), EnterLibrary);
+		
+		EnterLibrary.addChild(
+			new ActionChoice(
+				ActionNames.Face.toString(),
+				DrAliReza,
+				Icons.talk,
+				"Face Dr Ali Reza",
+				true),
+			TalkLibrarian);
+		
+		TalkLibrarian.addChild(new PositionChoice(Bartholomew, library.getFurniture("desk"), Condition.arrived),Desk);
+		
+		TalkLibrarian.addChild(new PositionChoice(Bartholomew, library.getFurniture("bookshelf5"), Condition.arrived),Bookshelf5);
+		
+		Bookshelf5.addChild(
+			new ActionChoice(
+				ActionNames.Face.toString(),
+				DrAliReza,
+				Icons.talk,
+				"Face Dr Ali Reza",
+				true),
+			TalkLibrarian2);
+		
+		Desk.addChild(
+			new ActionChoice(
+				ActionNames.Face.toString(),
+				DrAliReza,
+				Icons.talk,
+				"Face Dr Ali Reza",
+				true),
+			TalkLibrarian2);
 		
 		return new Node("root");
 	}
@@ -145,6 +207,7 @@ Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarratio
 		map.add(NodeLabels.ExitBHome.toString(), getExitBHome());
 		map.add(NodeLabels.TalkToKnight.toString(), getTalkToKnight());
 		map.add(NodeLabels.EnterPrison.toString(), getEnterPrison());
+		map.add(NodeLabels.StayInPrison.toString(), StayInPrison());
 		map.add(NodeLabels.sleepInPrison.toString(), sleepInPrison());
 		map.add(NodeLabels.TalkToKing.toString(), getTalkToKing());
 		map.add(NodeLabels.kingOpensDoor.toString(), kingOpensDoor());
@@ -173,7 +236,7 @@ Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarratio
 		return map;
 	}
 	 private enum NodeLabels {
-		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
+		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,StayInPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
 		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf5,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
 		 EnterTavern,Talkwithbartender,TalkwithRandy,ExitTavern, EnterRuins,WalktoPlant,TalktoBandit,KnightArrestBandit,JewelKey, TalktoKnight3,
 		 ExitRuins, TalktoKing2,Credits,
@@ -240,6 +303,11 @@ Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarratio
 		sequence.add(new SetDialogue("Do you accept my quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
 		sequence.add(new Position(Bartholomew,kingsDungeon,"DirtPile"));
 		sequence.add(new Position(kingBoone,kingsDungeon,"CellDoor"));
+		return sequence;
+	}
+	
+	private ActionSequence StayInPrison() {
+		var sequence = new ActionSequence();
 		return sequence;
 	}
 	
