@@ -77,8 +77,35 @@ public class ShortStory implements IStory{
 				true),
 			ReadScroll);
 		
+		ReadScroll.addChild(
+			new ActionChoice(
+				ActionNames.Exit.toString(),
+				BHome.getFurniture("Door"),
+				Icons.exit,
+				"Open door",
+				true),
+			TalkToKnight);
+		
+		TalkToKnight.addChild(new SelectionChoice("AcceptQuest"), bartAcceptsQuest);
+		
+		TalkToKnight.addChild(new SelectionChoice("DeclineQuest"), EnterPrison);
+		
+		EnterPrison.addChild(new SelectionChoice("AcceptQuest"), kingOpensDoor);
+		
+		kingOpensDoor.addChild(
+			new ActionChoice(
+				ActionNames.Exit.toString(),
+				kingsDungeon.getFurniture("Door"),
+				Icons.exit,
+				"Open door",
+				true),
+			bartAcceptsQuest);
+		
+		TalkToKnight.addChild(new SelectionChoice("DeclineQuest"), EnterPrison);
+		
 		return new Node("root");
 	}
+	
 	public enum ActionNames{
 
 AddToList, Attack, Bash, Cast, CheckVersion ,Clap ,ClearDialog ,ClearList, CloseFurniture, CreateCharacter,WalkToSpot, Wave,
