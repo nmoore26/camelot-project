@@ -7,9 +7,10 @@ import com.entities.Character.Hairstyles;
 import com.entities.Item.Items;
 import com.entities.Place.Places;
 import com.entities.Things.ThingNames;
-import com.playerInput.ActionChoice;
-import com.playerInput.ActionChoice.Icons;
 import com.playerInput.*;
+import com.playerInput.PositionChoice.Condition;
+import com.playerInput.ActionChoice.Icons;
+import com.playerInput.PositionChoice;
 import com.playerInput.SelectionChoice;
 import com.storygraph.*;
 import com.sequences.*;
@@ -46,9 +47,10 @@ public class ShortStory implements IStory{
 		var ExitPrison = new Node(NodeLabels.ExitPrison.toString());
 		var bartAcceptsQuest = new Node(NodeLabels.bartAcceptsQuest.toString());
 		var EnterLibrary = new Node(NodeLabels.EnterLibrary.toString());
+		// Nina Start Here
 		var TalkLibrarian = new Node(NodeLabels.TalkLibrarian.toString());
 		var Desk = new Node(NodeLabels.Desk.toString());
-		var Bookshelf5 = new Node(NodeLabels.Bookshelf5.toString());
+		var Bookshelf4 = new Node(NodeLabels.Bookshelf4.toString());
 		var TalkLibrarian2 = new Node(NodeLabels.TalkLibrarian2.toString());
 		var ExitLibrary = new Node(NodeLabels.ExitLibrary.toString());
 		var KnightDialoguefromLibrary = new Node(NodeLabels.KnightDialoguefromLibrary.toString());
@@ -66,8 +68,7 @@ public class ShortStory implements IStory{
 		var TalktoKing2 = new Node(NodeLabels.TalktoKing2.toString());
 		var Credits = new Node(NodeLabels.Credits.toString());
 		
-		root.addChild(new SelectionChoice("Start"), start);
-		
+		root.addChild(new SelectionChoice("Start"), start);		
 		start.addChild(
 			new ActionChoice(
 				ActionNames.OpenFurniture.toString(),
@@ -76,7 +77,6 @@ public class ShortStory implements IStory{
 				"Open chest",
 				true),
 			ReadScroll);
-		
 		ReadScroll.addChild(
 			new ActionChoice(
 				ActionNames.Exit.toString(),
@@ -102,19 +102,53 @@ public class ShortStory implements IStory{
 			bartAcceptsQuest);
 		
 		TalkToKnight.addChild(new SelectionChoice("DeclineQuest"), EnterPrison);
-		
+		TalkLibrarian.addChild(new PositionChoice(Bartholomew,
+				"Stand", PositionChoice.Condition.arrived), Desk);
+		Desk.addChild(new PositionChoice(Bartholomew,"Bookcase4",PositionChoice.Condition.arrived), Bookshelf4 );
+		Bookshelf4.addChild(new PositionChoice(Bartholomew,"Stand",PositionChoice.Condition.arrived), TalkLibrarian2);
+		TalkLibrarian2.addChild(new ActionChoice(
+				ActionNames.Exit.toString(),
+				library.getFurniture("Door"),
+				Icons.door,
+				"Leave house",
+				true),
+				ExitLibrary);
+		ExitLibrary.addChild(new ActionChoice(ActionNames.Face.toString(),knight,Icons.talk,"Talk to Knight",true), KnightDialoguefromLibrary);
+		KnightDialoguefromLibrary.addChild(new SelectionChoice("Tavern"), EnterTavern);
+		KnightDialoguefromLibrary.addChild(new SelectionChoice("Ruins"), EnterRuins);
+		EnterTavern.addChild(new ActionChoice(ActionNames.Face.toString(),
+				bartenderMilina,
+				Icons.talk,
+				"Talk with the Bartender",
+				false), Talkwithbartender);
+		EnterTavern.addChild(new ActionChoice(ActionNames.Face.toString(),
+				patronRandy,
+				Icons.talk,
+				"Talk with Randy",
+				false), TalkwithRandy);
+		TalkwithRandy.addChild(new ActionChoice(ActionNames.Exit.toString(),
+				tavern.getFurniture("Door"),
+				Icons.door,
+				"Leave Bar",
+				true), EnterRuins);
+		Talkwithbartender.addChild(new ActionChoice(ActionNames.Face.toString(),
+				patronRandy,
+				Icons.talk,
+				"Talk with Randy",
+				true), TalkwithRandy);
+		EnterRuins.addChild(null, getRoot());
 		return new Node("root");
 	}
 	
 	public enum ActionNames{
 
-AddToList, Attack, Bash, Cast, CheckVersion ,Clap ,ClearDialog ,ClearList, CloseFurniture, CreateCharacter,WalkToSpot, Wave,
-CreateEffect, CreateItem, CreatePlace, Dance, DanceTogether, Die, DisableEffect, DisableIcon, DisableInput, Draw,
-Drink, EnableEffect, EnableIcon, EnableInput, Enter, Exit, Face, FadeIn, FadeOut, Give, HideCredits, HideDialog, HideFurniture, 
-HideList, HideMenu, HideNarration, Kneel, Laugh, LookAt, MoveAway, OpenFurniture, Pickup, PlaySound, Pocket, Put, Putdown, Quit,
-RemoveFromList, Reset, Revive, SetCameraBlend, SetCameraFocus, SetCameraMode, SetClothing, SetCredits, SetDay, SetDialog,
-SetExpression, SetEyeColor, SetHairColorSetHairStyle, SetLeft, SetNarration, SetNight,SetPosition, SetRight, SetSkinColor, SetTitle,
-Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarration, Sit, Sleep, StopSound, Take, Unpocket, Wait, WalkTo,
+		AddToList, Attack, Bash, Cast, CheckVersion ,Clap ,ClearDialog ,ClearList, CloseFurniture, CreateCharacter,WalkToSpot, Wave,
+		CreateEffect, CreateItem, CreatePlace, Dance, DanceTogether, Die, DisableEffect, DisableIcon, DisableInput, Draw,
+		Drink, EnableEffect, EnableIcon, EnableInput, Enter, Exit, Face, FadeIn, FadeOut, Give, HideCredits, HideDialog, HideFurniture, 
+		HideList, HideMenu, HideNarration, Kneel, Laugh, LookAt, MoveAway, OpenFurniture, Pickup, PlaySound, Pocket, Put, Putdown, Quit,
+		RemoveFromList, Reset, Revive, SetCameraBlend, SetCameraFocus, SetCameraMode, SetClothing, SetCredits, SetDay, SetDialog,
+		SetExpression, SetEyeColor, SetHairColorSetHairStyle, SetLeft, SetNarration, SetNight,SetPosition, SetRight, SetSkinColor, SetTitle,
+		Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarration, Sit, Sleep, StopSound, Take, Unpocket, Wait, WalkTo,
 	}
 	public void getThings() {
 		Bartholomew = new Character(ThingNames.Bartholomew.toString(),BodyType.D,Clothing.Peasant,Hairstyles.Short_Beard);
@@ -153,7 +187,7 @@ Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarratio
 		map.add(NodeLabels.EnterLibrary.toString(), getEnterLibrary());
 		map.add(NodeLabels.TalkLibrarian.toString(), getTalkLibrarian());
 		map.add(NodeLabels.Desk.toString(), getgoToDesk());
-		map.add(NodeLabels.Bookshelf5.toString(), getgoToBookshelf5());
+		map.add(NodeLabels.Bookshelf4.toString(), getgoToBookshelf4());
 		map.add(NodeLabels.TalkLibrarian2.toString(), gettalkToLibrarian2());
 		map.add(NodeLabels.ExitLibrary.toString(), getExitLibrary());
 		map.add(NodeLabels.KnightDialoguefromLibrary.toString(), getKnightDialogueFromLibrary());
@@ -174,7 +208,7 @@ Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarratio
 	}
 	 private enum NodeLabels {
 		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
-		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf5,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
+		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf4,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
 		 EnterTavern,Talkwithbartender,TalkwithRandy,ExitTavern, EnterRuins,WalktoPlant,TalktoBandit,KnightArrestBandit,JewelKey, TalktoKnight3,
 		 ExitRuins, TalktoKing2,Credits,
 	 }
@@ -338,7 +372,7 @@ Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarratio
 		return sequence;
 	}
 	
-	private ActionSequence getgoToBookshelf5() {
+	private ActionSequence getgoToBookshelf4() {
 		var sequence = new ActionSequence();
 		sequence.add(new SetCameraFocus(Bartholomew));
 		sequence.add(new SetDialogue("So many books! After this quest I'll have to read some. It doesn't look like"
@@ -372,7 +406,7 @@ Sheathe, ShowCredits, ShowDialog,showFurniture, ShowList, ShowMenu, ShowNarratio
 	}
 	private ActionSequence getKnightDialogueFromLibrary() {
 		var sequence = new ActionSequence();
-		sequence.add(new SetDialogue("Where do you want to go to next?[Library|Library][Tavern|Tavern][Ruins|Ruins]"));
+		sequence.add(new SetDialogue("Where do you want to go to next?[Tavern|Tavern][Ruins|Ruins]"));
 		sequence.add(new ShowDialogue());
 		sequence.add(new SetRight(knight));
 		sequence.add(new Wait(10));
