@@ -12,6 +12,7 @@ import com.playerInput.PositionChoice.Condition;
 import com.playerInput.ActionChoice.Icons;
 import com.playerInput.PositionChoice;
 import com.playerInput.SelectionChoice;
+import com.playerInput.PositionChoice.Condition;
 import com.storygraph.*;
 import com.sequences.*;
 
@@ -41,6 +42,7 @@ public class ShortStory implements IStory{
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
 		var TalkToKnight = new Node(NodeLabels.TalkToKnight.toString());
 		var EnterPrison = new Node(NodeLabels.EnterPrison.toString());
+		var StayInPrison = new Node(NodeLabels.StayInPrison.toString());
 		var sleepInPrison = new Node(NodeLabels.sleepInPrison.toString());
 		var TalkToKing = new Node(NodeLabels.TalkToKing.toString());
 		var kingOpensDoor = new Node(NodeLabels.kingOpensDoor.toString());
@@ -63,9 +65,9 @@ public class ShortStory implements IStory{
 		var TalktoBandit = new Node(NodeLabels.TalktoBandit.toString());
 		var KnightArrestBandit = new Node(NodeLabels.KnightArrestBandit.toString());
 		var JewelKey = new Node(NodeLabels.JewelKey.toString());
-		var TalktoKnight3 = new Node(NodeLabels.TalktoKnight3.toString());
 		var ExitRuins = new Node(NodeLabels.ExitRuins.toString());
 		var TalktoKing2 = new Node(NodeLabels.TalktoKing2.toString());
+		var EnterPalace = new Node(NodeLabels.EnterPalace.toString());
 		var Credits = new Node(NodeLabels.Credits.toString());
 		
 		root.addChild(new SelectionChoice("Start"), start);		
@@ -90,17 +92,27 @@ public class ShortStory implements IStory{
 		
 		TalkToKnight.addChild(new SelectionChoice("DeclineQuest"), EnterPrison);
 		
-		EnterPrison.addChild(new SelectionChoice("AcceptQuest"), kingOpensDoor);
+		EnterPrison.addChild(
+			new ActionChoice(
+				ActionNames.Face.toString(),
+				kingBoone,
+				Icons.talk,
+				"Face King",
+				true),
+			TalkToKing);
+		
+		TalkToKing.addChild(new SelectionChoice("AcceptQuest"), kingOpensDoor);
+		
+		TalkToKing.addChild(new SelectionChoice("DeclineQuest"), StayInPrison);
 		
 		kingOpensDoor.addChild(
 			new ActionChoice(
 				ActionNames.Exit.toString(),
-				kingsDungeon.getFurniture("Door"),
+				kingsDungeon.getFurniture("CellDoor"),
 				Icons.exit,
 				"Open door",
 				true),
-			bartAcceptsQuest);
-		
+			ExitPrison);
 		TalkToKnight.addChild(new SelectionChoice("DeclineQuest"), EnterPrison);
 		TalkLibrarian.addChild(new PositionChoice(Bartholomew,
 				"Stand", PositionChoice.Condition.arrived), Desk);
@@ -136,8 +148,58 @@ public class ShortStory implements IStory{
 				Icons.talk,
 				"Talk with Randy",
 				true), TalkwithRandy);
-		EnterRuins.addChild(null, getRoot());
-		return new Node("root");
+		EnterRuins.addChild(new PositionChoice(Bartholomew,"Plant",Condition.arrived), WalktoPlant);
+		EnterRuins.addChild(new PositionChoice(Bartholomew,"Throne",Condition.arrived), TalktoBandit);	
+		WalktoPlant.addChild(new PositionChoice(Bartholomew, "Throne",Condition.arrived), TalktoBandit);
+		TalktoBandit.addChild(new ActionChoice(ActionNames.Exit.toString(),
+				ruins.getFurniture("Door"),
+				Icons.exit,
+				"Knight is leaving",
+				true), KnightArrestBandit);
+		KnightArrestBandit.addChild(new PositionChoice(Bartholomew,"Chest",Condition.arrived), JewelKey);
+		JewelKey.addChild(new ActionChoice(ActionNames.OpenFurniture.toString(),
+				ruins.getFurniture("Chest"),
+				Icons.chest,
+				"Get the jewel key",
+				true), ExitRuins);
+		ExitRuins.addChild(new ActionChoice(ActionNames.Exit.toString(),
+				ruins.getFurniture("Door"),
+				Icons.exit,
+				"Leave the Ruins",
+				true), TalktoKing2);
+		TalktoKing2.addChild(new ActionChoice(ActionNames.Enter.toString(),
+				greatHall.getFurniture("Door"), Icons.door,"Enter king's palace",
+				true) , EnterPalace);
+		EnterPalace.addChild(new SelectionChoice("Show Credits"),Credits);
+		StayInPrison.addChild(
+			new ActionChoice(
+				ActionNames.Sleep.toString(),
+				kingsDungeon.getFurniture("Bed"),
+				Icons.sleep,
+				"Sleep",
+				true),
+			sleepInPrison);
+		
+		sleepInPrison.addChild(
+			new ActionChoice(
+				ActionNames.Sleep.toString(),
+				kingsDungeon.getFurniture("Bed"),
+				Icons.sleep,
+				"Sleep",
+				true),
+			TalkToKing);
+		
+		ExitPrison.addChild(new SelectionChoice("Library"), EnterLibrary);
+		
+		EnterLibrary.addChild(
+			new ActionChoice(
+				ActionNames.Face.toString(),
+				DrAliReza,
+				Icons.talk,
+				"Face Dr Ali Reza",
+				true),
+			TalkLibrarian);
+		return root;
 	}
 	
 	public enum ActionNames{
@@ -179,6 +241,7 @@ public class ShortStory implements IStory{
 		map.add(NodeLabels.ExitBHome.toString(), getExitBHome());
 		map.add(NodeLabels.TalkToKnight.toString(), getTalkToKnight());
 		map.add(NodeLabels.EnterPrison.toString(), getEnterPrison());
+		map.add(NodeLabels.StayInPrison.toString(), StayInPrison());
 		map.add(NodeLabels.sleepInPrison.toString(), sleepInPrison());
 		map.add(NodeLabels.TalkToKing.toString(), getTalkToKing());
 		map.add(NodeLabels.kingOpensDoor.toString(), kingOpensDoor());
@@ -200,17 +263,17 @@ public class ShortStory implements IStory{
 		map.add(NodeLabels.TalktoBandit.toString(), getTalkToBandit());
 		map.add(NodeLabels.KnightArrestBandit.toString(), getKnightArrestsBandit());
 		map.add(NodeLabels.JewelKey.toString(), getJewelKey());
-		map.add(NodeLabels.TalktoKnight3.toString(), talkToKnight3());
 		map.add(NodeLabels.ExitRuins.toString(), getExitRuins());
 		map.add(NodeLabels.TalktoKing2.toString(), talkToKing());
+		map.add(NodeLabels.EnterPalace.toString(),getEnterPalace());
 		map.add(NodeLabels.Credits.toString(), getCredits());
 		return map;
 	}
 	 private enum NodeLabels {
-		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
+		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,StayInPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
 		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf4,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
 		 EnterTavern,Talkwithbartender,TalkwithRandy,ExitTavern, EnterRuins,WalktoPlant,TalktoBandit,KnightArrestBandit,JewelKey, TalktoKnight3,
-		 ExitRuins, TalktoKing2,Credits,
+		 ExitRuins, TalktoKing2,EnterPalace,Credits,
 	 }
 	
 	private ActionSequence getInit() {
@@ -274,6 +337,11 @@ public class ShortStory implements IStory{
 		sequence.add(new SetDialogue("Do you accept my quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
 		sequence.add(new Position(Bartholomew,kingsDungeon,"DirtPile"));
 		sequence.add(new Position(kingBoone,kingsDungeon,"CellDoor"));
+		return sequence;
+	}
+	
+	private ActionSequence StayInPrison() {
+		var sequence = new ActionSequence();
 		return sequence;
 	}
 	
@@ -569,21 +637,10 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowNarration());
 		sequence.add(new Wait(10));
 		sequence.add(new HideNarration());
-		sequence.add(new SetDialogue("Lets get to the king immediately he will be so happy that you found his jewel key"));
-		sequence.add(new ShowDialogue());
-		sequence.add(new SetRight(knight));
-		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
 		return sequence;
 	}
 	
-	private ActionSequence talkToKnight3() { //Not sure that we need this node
-		var sequence = new ActionSequence();
-		sequence.add(new ShowDialogue());
-		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
-		return sequence;
-	}
+
 	
 	private ActionSequence getExitRuins() {
 		var sequence = new ActionSequence();
@@ -595,9 +652,13 @@ public class ShortStory implements IStory{
 		sequence.add(new SetDialogue(""));
 		return sequence;
 	}
-	private ActionSequence talkToKing() {
+	private ActionSequence getEnterPalace() {
 		var sequence = new ActionSequence();
 		sequence.add(new Enter(Bartholomew,greatHall.getFurniture("Door"),true));
+		return sequence;
+	}
+	private ActionSequence talkToKing() {
+		var sequence = new ActionSequence();
 		sequence.add(new Position(kingBoone,greatHall,"Throne"));
 		sequence.add(new SetCameraFocus(kingBoone));
 		sequence.add(new SetDialogue("Thank you so much Bartholomew for finding my jewel key! How can I repay you?"));
