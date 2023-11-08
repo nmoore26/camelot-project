@@ -36,7 +36,7 @@ public class ShortStory implements IStory{
 	private Place greatHall;
 	
 	public ShortStory() {
-		getThings();//
+		getThings();
 	}
 	
 	public INode getRoot() {
