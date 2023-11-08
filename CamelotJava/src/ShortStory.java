@@ -35,6 +35,10 @@ public class ShortStory implements IStory{
 	private Item cupOfBeer;
 	private Place greatHall;
 	
+	public ShortStory() {
+		getThings();//
+	}
+	
 	public INode getRoot() {
 		var root = new Node(NodeLabels.Init.toString());
 		var start = new Node(NodeLabels.Start.toString());
@@ -633,6 +637,7 @@ public class ShortStory implements IStory{
 	private ActionSequence getJewelKey() {
 		var sequence = new ActionSequence();
 		sequence.add(new OpenFurniture(Bartholomew, ruins.getFurniture("Chest")));
+		// need pocket & add create jewel key
 		sequence.add(new SetNarration("You found the kings jewel key! Return it to him!"));
 		sequence.add(new ShowNarration());
 		sequence.add(new Wait(10));
