@@ -14,7 +14,7 @@ public class Pickup implements IAction {
 
 	@Override
 	public boolean getShouldWait() {
-		return false;
+		return true;
 	}
 	public Pickup(Character character, Item item,Furniture furniture) {
 		this.character = character;

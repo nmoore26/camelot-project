@@ -18,7 +18,7 @@ import com.sequences.*;
 
 public class ShortStory implements IStory{
 	private Character Bartholomew;
-	private Item openScroll;
+	private Item OpenScroll;
 	private Place BHome;
 	private Place city;
 	private Character knight;
@@ -218,7 +218,7 @@ public class ShortStory implements IStory{
 	}
 	public void getThings() {
 		Bartholomew = new Character(ThingNames.Bartholomew.toString(),BodyType.D,Clothing.Peasant,Hairstyles.Short_Beard);
-		openScroll = new Item(ThingNames.openScroll.toString(),Items.Scroll);
+		OpenScroll = new Item(ThingNames.openScroll.toString(),Items.OpenScroll);
 		BHome = new Place(ThingNames.BHome.toString(),Places.Cottage);
 		city = new Place(ThingNames.city.toString(), Places.City);
 		knight = new Character(ThingNames.knight.toString(),BodyType.B,Clothing.HeavyArmour,Hairstyles.Short);
@@ -286,7 +286,7 @@ public class ShortStory implements IStory{
 		sequence.combineWith(new CharacterCreation(Bartholomew));
 		sequence.add(new Create<Place>(BHome));
 		sequence.add(new Position(Bartholomew,BHome,"Bed"));
-		sequence.add(new Position(openScroll,BHome,"Chest"));
+		sequence.add(new Position(OpenScroll,BHome,"Chest"));
 		sequence.add(new SetNarration("The scroll reads:"
 				+ "Dear Bartholomew,"
 				+ "		I have lost my precious jewel key. You are the best investigator in the kingdom."
@@ -308,7 +308,7 @@ public class ShortStory implements IStory{
 	private ActionSequence getReadScroll() {
 		var sequence = new ActionSequence();
 		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Chest")));
-		sequence.add(new Pickup(Bartholomew,openScroll,BHome.getFurniture("Chest")));
+		sequence.add(new Pickup(Bartholomew,OpenScroll,BHome.getFurniture("Chest")));
 		sequence.add(new ShowNarration());
 		return sequence;
 	}

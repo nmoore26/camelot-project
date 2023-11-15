@@ -22,4 +22,9 @@ public class OpenFurniture implements IAction {
 				
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("%s(%s, %s)", getName(), character.getName(), furniture.getName());
+	}
+	
 }
