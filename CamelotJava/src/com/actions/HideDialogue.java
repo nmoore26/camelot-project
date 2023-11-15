@@ -14,4 +14,8 @@ public class HideDialogue implements IAction {
 	public HideDialogue() {
 		
 	}
+	@Override
+	public String toString() {
+		return String.format("%s()", getName());
+	}
 }

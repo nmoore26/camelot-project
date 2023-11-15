@@ -18,4 +18,8 @@ public class SetNarration implements IAction {
 	public String getNarration() {
 		return narration;
 	}
+	@Override
+	public String toString() {
+		return String.format("%s(%s)", getName(),getNarration());
+	}
 }

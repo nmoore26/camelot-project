@@ -14,5 +14,9 @@ public class Wait implements IAction{
 	public Wait (double time) {
 		this.time = time;
 	}
+	@Override
+	public String toString() {
+		return String.format("%s(%s)", getName(), time);
+	}
 	
 }

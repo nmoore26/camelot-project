@@ -20,4 +20,8 @@ public class SetRight implements IAction {
 	public SetRight(String hide) {
 		hide = null;
 	}
+	@Override
+	public String toString() {
+		return String.format("%s(%s)", getName(),character.getName()));
+	}
 }

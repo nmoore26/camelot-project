@@ -18,4 +18,8 @@ public class SetDialogue implements IAction {
 	public String getDialogue() {
 		return dialogue;
 	}
+	@Override
+	public String toString() {
+		return String.format("%s(%s)", getName(),getDialogue());
+	}
 }

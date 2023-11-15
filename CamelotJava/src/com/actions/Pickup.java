@@ -26,4 +26,8 @@ public class Pickup implements IAction {
 		this.item = item;
 		furniture = null;
 	}
+	@Override
+	public String toString() {
+		return String.format("%s(%s,%s,%s)", getName(), character.getName(),item.getName(), furniture.getName());
+	}
 }

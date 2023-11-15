@@ -13,6 +13,9 @@ public class ShowDialogue implements IAction  {
 	public boolean getShouldWait() {
 		return true;
 	}
-	
+	@Override
+	public String toString() {
+		return String.format("%s()", getName());
+	}
 	
 }

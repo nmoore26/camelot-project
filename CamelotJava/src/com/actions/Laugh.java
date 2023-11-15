@@ -17,5 +17,9 @@ public class Laugh implements IAction {
 	public Laugh(Character character) {
 		this.character = character;
 	}
+	@Override
+	public String toString() {
+		return String.format("%s(%s)", getName(), character.getName());
+	}
 	
 }

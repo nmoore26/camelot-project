@@ -18,5 +18,9 @@ public class SetCredits implements IAction {
 	public String credits() {
 		return credits;
 	}
+	@Override
+	public String toString() {
+		return String.format("%s(%s)", getName(),credits());
+	}
 }
 
