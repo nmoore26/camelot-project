@@ -21,17 +21,9 @@ public class OpenFurniture implements IAction {
 		this.furniture = furniture;
 				
 	}
-<<<<<<< HEAD
 	@Override
 	public String toString() {
 		return String.format("%s(%s,%s)", getName(), character.getName(), furniture.getName());
 	}
-=======
 	
-	@Override
-	public String toString() {
-		return String.format("%s(%s, %s)", getName(), character.getName(), furniture.getName());
-	}
-	
->>>>>>> branch 'main' of https://github.com/nmoore26/camelot-project.git
 }

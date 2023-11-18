@@ -22,6 +22,6 @@ public class SetRight implements IAction {
 	}
 	@Override
 	public String toString() {
-		return String.format("%s(%s)", getName(),character.getName()));
+		return String.format("%s(%s)", getName(),character.getName());
 	}
 }
