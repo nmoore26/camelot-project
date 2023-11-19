@@ -44,6 +44,7 @@ public class ShortStory implements IStory{
 		var start = new Node(NodeLabels.Start.toString());
 		var ReadScroll = new Node(NodeLabels.ReadScroll.toString());
 		var Entercityfromcot = new Node(NodeLabels.EntercityfromCot.toString());
+		var OpenBHomeDoor = new Node (NodeLabels.OpenBHomeDoor,toString());
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
 		var TalkToKnight = new Node(NodeLabels.TalkToKnight.toString());
 		var EnterPrison = new Node(NodeLabels.EnterPrison.toString());
@@ -91,10 +92,25 @@ public class ShortStory implements IStory{
 				Icons.exit,
 				"Leave House",
 				true),
-			ExitBHome);
+			OpenBHomeDoor);
+		
+		OpenBHomeDoor.addChild(
+				new ActionChoice(
+					ActionNames.OpenFurniture.toString(),
+					BHome.getFurniture("Door"),
+					Icons.exit,
+					"Open Door",
+					true),
+				ReadScroll);
+		
 		ExitBHome.addChild(new ActionChoice(
 				ActionNames.Enter.toString(),
-				city.getFurniture("Door")), Entercityfromcot);
+				city.getFurniture("Door")), 
+				Icons.talk, 
+				"Talk Knight",
+				true),
+			Entercityfromcot);
+			
 		Entercityfromcot.addChild(new PositionChoice(Bartholomew,"knight", PositionChoice.Condition.arrived), TalkToKnight);
 		
 		TalkToKnight.addChild(new SelectionChoice("AcceptQuest"), bartAcceptsQuest);
@@ -247,6 +263,7 @@ public class ShortStory implements IStory{
 		map.add(NodeLabels.Init.toString(), getInit());
 		map.add(NodeLabels.Start.toString(), getStartSequence());
 		map.add(NodeLabels.ReadScroll.toString(), getReadScroll());
+		map.add(NodeLabels.OpenBHomeDoor.toString(), getOpenBHomeDoor());
 		map.add(NodeLabels.ExitBHome.toString(), getExitBHome());
 		map.add(NodeLabels.EntercityfromCot.toString(), getEntercity());
 		map.add(NodeLabels.TalkToKnight.toString(), getTalkToKnight());
@@ -280,7 +297,7 @@ public class ShortStory implements IStory{
 		return map;
 	}
 	 private enum NodeLabels {
-		 Init,Start,ReadScroll,ExitBHome,EntercityfromCot,TalkToKnight,EnterPrison,StayInPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
+		 Init,Start,ReadScroll,OpenBHomeDoor, ExitBHome,EntercityfromCot,TalkToKnight,EnterPrison,StayInPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
 		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf4,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
 		 EnterTavern,Talkwithbartender,TalkwithRandy,ExitTavern, EnterRuins,WalktoPlant,TalktoBandit,KnightArrestBandit,JewelKey, TalktoKnight3,
 		 ExitRuins, TalktoKing2,EnterPalace,Credits,
@@ -337,7 +354,13 @@ public class ShortStory implements IStory{
 		sequence.add(new SetDialog("Do you accept the kings quest? [AcceptQuest|Accept Quest?][DeclineQuest|Decline Quest?]"));
 		return sequence;
 	}
-
+	
+	private ActionSequence getOpenBHomeDoor() {
+		var sequence = new ActionSequence();
+		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Door")));
+		return sequence;
+	}
+	
 	private ActionSequence getExitBHome() {
 		var sequence = new ActionSequence();
 		sequence.add(new Exit(Bartholomew, BHome.getFurniture("Door"), true));	
