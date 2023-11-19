@@ -1,18 +1,18 @@
 package com.actions;
 
-public class SetDialogue implements IAction {
+public class SetDialog implements IAction {
 	public String dialogue;
 	@Override
 	//blank
 	public String getName() {
-		return null;
+		return "SetDialog";
 	}
 
 	@Override
 	public boolean getShouldWait() {
 		return true;
 	}
-	public SetDialogue(String dialogue) {
+	public SetDialog(String dialogue) {
 		this.dialogue = dialogue;
 	}
 	public String getDialogue() {
@@ -23,3 +23,4 @@ public class SetDialogue implements IAction {
 		return String.format("%s(%s)", getName(),getDialogue());
 	}
 }
+

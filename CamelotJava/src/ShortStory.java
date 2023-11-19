@@ -43,6 +43,7 @@ public class ShortStory implements IStory{
 		var root = new Node(NodeLabels.Init.toString());
 		var start = new Node(NodeLabels.Start.toString());
 		var ReadScroll = new Node(NodeLabels.ReadScroll.toString());
+		var Entercityfromcot = new Node(NodeLabels.EntercityfromCot.toString());
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
 		var TalkToKnight = new Node(NodeLabels.TalkToKnight.toString());
 		var EnterPrison = new Node(NodeLabels.EnterPrison.toString());
@@ -88,9 +89,13 @@ public class ShortStory implements IStory{
 				ActionNames.Exit.toString(),
 				BHome.getFurniture("Door"),
 				Icons.exit,
-				"Open door",
+				"Leave House",
 				true),
-			TalkToKnight);
+			ExitBHome);
+		ExitBHome.addChild(new ActionChoice(
+				ActionNames.Enter.toString(),
+				city.getFurniture("Door")), Entercityfromcot);
+		Entercityfromcot.addChild(new PositionChoice(Bartholomew,"knight", PositionChoice.Condition.arrived), TalkToKnight);
 		
 		TalkToKnight.addChild(new SelectionChoice("AcceptQuest"), bartAcceptsQuest);
 		
@@ -243,6 +248,7 @@ public class ShortStory implements IStory{
 		map.add(NodeLabels.Start.toString(), getStartSequence());
 		map.add(NodeLabels.ReadScroll.toString(), getReadScroll());
 		map.add(NodeLabels.ExitBHome.toString(), getExitBHome());
+		map.add(NodeLabels.EntercityfromCot.toString(), getEntercity());
 		map.add(NodeLabels.TalkToKnight.toString(), getTalkToKnight());
 		map.add(NodeLabels.EnterPrison.toString(), getEnterPrison());
 		map.add(NodeLabels.StayInPrison.toString(), StayInPrison());
@@ -274,7 +280,7 @@ public class ShortStory implements IStory{
 		return map;
 	}
 	 private enum NodeLabels {
-		 Init,Start,ReadScroll,ExitBHome,TalkToKnight,EnterPrison,StayInPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
+		 Init,Start,ReadScroll,ExitBHome,EntercityfromCot,TalkToKnight,EnterPrison,StayInPrison,sleepInPrison,TalkToKing,kingOpensDoor, ExitPrison,
 		 bartAcceptsQuest,EnterLibrary,TalkLibrarian, Desk, Bookshelf4,TalkLibrarian2, ExitLibrary,KnightDialoguefromLibrary,
 		 EnterTavern,Talkwithbartender,TalkwithRandy,ExitTavern, EnterRuins,WalktoPlant,TalktoBandit,KnightArrestBandit,JewelKey, TalktoKnight3,
 		 ExitRuins, TalktoKing2,EnterPalace,Credits,
@@ -286,12 +292,8 @@ public class ShortStory implements IStory{
 		sequence.combineWith(new CharacterCreation(Bartholomew));
 		sequence.add(new Create<Place>(BHome));
 		sequence.add(new Position(Bartholomew,BHome,"Bed"));
-		sequence.add(new Position(openScroll,BHome,"Chest"));
-		sequence.add(new SetNarration("The scroll reads:"
-				+ "Dear Bartholomew,"
-				+ "		I have lost my precious jewel key. You are the best investigator in the kingdom."
-				+ "		I need you to help me find my jewel key and who stole it. Please tell my "
-				+ "		knight whether you accept my quest. "));
+		//sequence.add(new Position(openScroll,BHome,"Chest"));
+		sequence.add(new SetNarration("The scroll reads: Dear Bartholomew,"));
 		sequence.add(new SetCameraFocus(Bartholomew));
 		sequence.add(new ShowMenu(true));
 		return sequence;
@@ -308,27 +310,50 @@ public class ShortStory implements IStory{
 	private ActionSequence getReadScroll() {
 		var sequence = new ActionSequence();
 		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Chest")));
-		sequence.add(new Pickup(Bartholomew,openScroll,BHome.getFurniture("Chest")));
+		//sequence.add(new Pickup(Bartholomew,openScroll,BHome.getFurniture("Chest")));
 		sequence.add(new ShowNarration());
+		sequence.add(new Wait(3));
+		sequence.add(new HideNarration());
+		sequence.add(new SetNarration("I have lost my precious jewel key."));
+		sequence.add(new ShowNarration());
+		sequence.add(new Wait(3));
+		sequence.add(new HideNarration());
+		sequence.add(new SetNarration("You are the best investigator in the kingdom."));
+		sequence.add(new ShowNarration());
+		sequence.add(new Wait(3));
+		sequence.add(new HideNarration());
+		sequence.add(new SetNarration("I need you to help me find my jewel key and who stole it."));
+		sequence.add(new ShowNarration());
+		sequence.add(new Wait(3));
+		sequence.add(new HideNarration());
+		sequence.add(new SetNarration("Please tell my knight whether you accept my quest."));
+		sequence.add(new ShowNarration());
+		sequence.add(new Wait(3));
+		sequence.add(new HideNarration());
+		sequence.add(new Create<Place>(city));
+		sequence.combineWith(new CharacterCreation(knight));
+		sequence.add(new Position(knight,city,"Fountain"));
+		sequence.add(new Position(Bartholomew,city,"EastEnd"));
+		sequence.add(new SetDialog("Do you accept the kings quest? [AcceptQuest|Accept Quest?][DeclineQuest|Decline Quest?]"));
 		return sequence;
 	}
 
 	private ActionSequence getExitBHome() {
 		var sequence = new ActionSequence();
-		sequence.add(new Exit(Bartholomew, BHome.getFurniture("Door"), true));
-		sequence.add(new Create<Place>(city));
-		sequence.combineWith(new CharacterCreation(knight));
-		sequence.add(new Position(knight,city,"Fountain"));
-		sequence.add(new Position(Bartholomew,city,"EastEnd"));
-		sequence.add(new SetDialogue("Do you accept the kings quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
+		sequence.add(new Exit(Bartholomew, BHome.getFurniture("Door"), true));	
+		return sequence;
+	}
+	private ActionSequence getEntercity() {
+		var sequence = new ActionSequence();
+		sequence.add(new Enter(Bartholomew, city.getFurniture("Door"), true));
 		return sequence;
 	}
 	
 	private ActionSequence getTalkToKnight() {
 		var sequence = new ActionSequence();
-		sequence.add(new ShowDialogue());
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(knight));
-		sequence.add(new Wait(10));
+		sequence.add(new Wait(20));
 		sequence.add(new HideDialogue());
 		return sequence;
 	}
@@ -338,7 +363,7 @@ public class ShortStory implements IStory{
 		var sequence = new ActionSequence();
 		sequence.combineWith(new CharacterCreation(kingBoone));
 		sequence.add(new Create<Place>(kingsDungeon));
-		sequence.add(new SetDialogue("Do you accept my quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
+		sequence.add(new SetDialog("Do you accept my quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
 		sequence.add(new Position(Bartholomew,kingsDungeon,"DirtPile"));
 		sequence.add(new Position(kingBoone,kingsDungeon,"CellDoor"));
 		return sequence;
@@ -352,13 +377,13 @@ public class ShortStory implements IStory{
 	private ActionSequence sleepInPrison() {
 		var sequence = new ActionSequence();
 		sequence.add(new Sleep(Bartholomew,kingsDungeon.getFurniture("Bed")));
-		sequence.add(new SetDialogue("Now do you accept my quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
+		sequence.add(new SetDialog("Now do you accept my quest? [AccpeptQuest|Accpept Quest?][DeclineQuest|Decline Quest?]"));
 		return sequence;
 	}
 	
 	private ActionSequence getTalkToKing() {
 		var sequence = new ActionSequence();
-		sequence.add(new ShowDialogue());
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(kingBoone));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
@@ -367,9 +392,9 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence kingOpensDoor() {
 		var sequence = new ActionSequence();
-		sequence.add(new SetDialogue("You are free to begin my quest!"));
+		sequence.add(new SetDialog("You are free to begin my quest!"));
 		sequence.add(new OpenFurniture(kingBoone, kingsDungeon.getFurniture("CellDoor")));
-		sequence.add(new ShowDialogue());
+		sequence.add(new ShowDialog());
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
 		return sequence;
@@ -381,14 +406,14 @@ public class ShortStory implements IStory{
 		sequence.combineWith(new CharacterCreation(knight));
 		sequence.add(new Position(knight,city,"Fountain"));
 		sequence.add(new Position(Bartholomew,city,"EastEnd"));
-		sequence.add(new SetDialogue("Where do you want to go? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
+		sequence.add(new SetDialog("Where do you want to go? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
 		return sequence;
 	}
 	
 	private ActionSequence getbartAcceptsQuest() {
 		var sequence = new ActionSequence();
-		sequence.add(new SetDialogue("Where do you want to begin your quest? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Where do you want to begin your quest? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
+		sequence.add(new ShowDialog());
 		sequence.add(new Wait(20));
 		sequence.add(new HideDialogue());
 		return sequence;
@@ -410,22 +435,22 @@ public class ShortStory implements IStory{
 		sequence.add(new Position(Bartholomew,library,"Bookcase4"));
 		sequence.add(new Position(DrAliReza, library,"Stand"));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Good Morning Professor! How are you?")); 
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Good Morning Professor! How are you?")); 
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(DrAliReza));
-		sequence.add(new SetDialogue("I am doing good Bartholomew. How can I help you?"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("I am doing good Bartholomew. How can I help you?"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(DrAliReza));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("I am looking for the Kings's lost jewel key. Can I look around here to see if I can find it")); 
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("I am looking for the Kings's lost jewel key. Can I look around here to see if I can find it")); 
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new SetCameraFocus(DrAliReza));
-		sequence.add(new SetDialogue("Sure!"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Sure!"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(DrAliReza));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
@@ -436,8 +461,8 @@ public class ShortStory implements IStory{
 	private ActionSequence getgoToDesk() {
 		var sequence = new ActionSequence();
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Wow, what a pretty flower! It doesn't look like the key is here."));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Wow, what a pretty flower! It doesn't look like the key is here."));
+		sequence.add(new ShowDialog());
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
 		sequence.add(new EnableInput(true));
@@ -447,9 +472,9 @@ public class ShortStory implements IStory{
 	private ActionSequence getgoToBookshelf4() {
 		var sequence = new ActionSequence();
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("So many books! After this quest I'll have to read some. It doesn't look like"
+		sequence.add(new SetDialog("So many books! After this quest I'll have to read some. It doesn't look like"
 				+ "the key is here."));
-		sequence.add(new ShowDialogue());
+		sequence.add(new ShowDialog());
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
 		sequence.add(new EnableInput(true));
@@ -458,13 +483,13 @@ public class ShortStory implements IStory{
 	private ActionSequence gettalkToLibrarian2() {
 		var sequence = new ActionSequence();
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Thank you Professor! It looks like the key isn't here! See you later!")); 
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Thank you Professor! It looks like the key isn't here! See you later!")); 
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new SetCameraFocus(DrAliReza));
 		sequence.add(new Wait(10));
-		sequence.add(new SetDialogue("See you soon!"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("See you soon!"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(DrAliReza));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
@@ -478,8 +503,8 @@ public class ShortStory implements IStory{
 	}
 	private ActionSequence getKnightDialogueFromLibrary() {
 		var sequence = new ActionSequence();
-		sequence.add(new SetDialogue("Where do you want to go to next?[Tavern|Tavern][Ruins|Ruins]"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Where do you want to go to next?[Tavern|Tavern][Ruins|Ruins]"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(knight));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
@@ -501,33 +526,33 @@ public class ShortStory implements IStory{
 	private ActionSequence getTalkToBartender() {
 		var sequence = new ActionSequence();
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Hey Milena, how are you?"));	
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Hey Milena, how are you?"));	
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(bartenderMilina));
-		sequence.add(new SetDialogue("Hey Bartholomew! I'm doing good, just preparing for the dinner rush. What can I do for you today?"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Hey Bartholomew! I'm doing good, just preparing for the dinner rush. What can I do for you today?"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(bartenderMilina));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("I'm looking for the king's jewel key, have you heard anything?"));	
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("I'm looking for the king's jewel key, have you heard anything?"));	
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(bartenderMilina));
-		sequence.add(new SetDialogue("Hey... you didn't hear this from me but Randy over there may know something. I'd ask him."));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Hey... you didn't hear this from me but Randy over there may know something. I'd ask him."));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(bartenderMilina));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Thanks! Will do! Save a beer for me, will you?"));	
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Thanks! Will do! Save a beer for me, will you?"));	
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(bartenderMilina));
-		sequence.add(new SetDialogue("Sure thing!"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Sure thing!"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(bartenderMilina));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
@@ -536,38 +561,38 @@ public class ShortStory implements IStory{
 	private ActionSequence gettalkWithPatron() {
 		var sequence = new ActionSequence();
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Hey Randy, your just the man I wanted to see."));	
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Hey Randy, your just the man I wanted to see."));	
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(patronRandy));
-		sequence.add(new SetDialogue("And why is that?"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("And why is that?"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(patronRandy));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Someone told me that you knew who took the king's jewel key"));	
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Someone told me that you knew who took the king's jewel key"));	
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(patronRandy));
-		sequence.add(new SetDialogue("I don't know what your talking about but you should get out of here!"));	
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("I don't know what your talking about but you should get out of here!"));	
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(patronRandy));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Look... I'm just doing my job. I wonder what your Majesty would think if he knew that you knew where his jewel key was?"));	
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Look... I'm just doing my job. I wonder what your Majesty would think if he knew that you knew where his jewel key was?"));	
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(patronRandy));
-		sequence.add(new SetDialogue("Woah man.. chill. All I know is that some bandit who goes by the name of Caspera was acting very suspicious last night. Please don't tell the king!"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Woah man.. chill. All I know is that some bandit who goes by the name of Caspera was acting very suspicious last night. Please don't tell the king!"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(patronRandy));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("I won't this time Thanks for the heads up!"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("I won't this time Thanks for the heads up!"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
@@ -589,8 +614,8 @@ public class ShortStory implements IStory{
 	}
 	private ActionSequence getwalkToPlant() {
 		var sequence = new ActionSequence();
-		sequence.add(new SetDialogue("I wonder where this Caspera is? I don't see her over here by this pretty plant"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("I wonder where this Caspera is? I don't see her over here by this pretty plant"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
@@ -602,17 +627,17 @@ public class ShortStory implements IStory{
 		var sequence = new ActionSequence();
 		sequence.add(new Position(knight,ruins,"DirtPile"));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Stop Caspera you are under arrest. Where is the jewel key?"));
-		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetDialog("Stop Caspera you are under arrest. Where is the jewel key?"));
+		sequence.add(new ShowDialog()); 
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new SetCameraFocus(banditCaspera));
-		sequence.add(new SetDialogue("Uhhgh... you caught me! How! I thought if I hid it in this chest, that you'll never find it"));
-		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetDialog("Uhhgh... you caught me! How! I thought if I hid it in this chest, that you'll never find it"));
+		sequence.add(new ShowDialog()); 
 		sequence.add(new SetRight(banditCaspera));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("Well you thought wrong, knight arrest her immediately!"));
-		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetDialog("Well you thought wrong, knight arrest her immediately!"));
+		sequence.add(new ShowDialog()); 
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
@@ -621,8 +646,8 @@ public class ShortStory implements IStory{
 	private ActionSequence getKnightArrestsBandit() {
 		var sequence = new ActionSequence();
 		sequence.add(new SetCameraFocus(knight));
-		sequence.add(new SetDialogue("You're under arrest!"));
-		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetDialog("You're under arrest!"));
+		sequence.add(new ShowDialog()); 
 		sequence.add(new SetRight(knight));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
@@ -654,7 +679,7 @@ public class ShortStory implements IStory{
 		sequence.add(new Create<Place>(greatHall));
 		sequence.add(new Position(kingBoone,greatHall,"Throne"));
 		sequence.add(new Position(Bartholomew,greatHall,"LeftDoor"));
-		sequence.add(new SetDialogue(""));
+		sequence.add(new SetDialog(""));
 		return sequence;
 	}
 	private ActionSequence getEnterPalace() {
@@ -666,18 +691,18 @@ public class ShortStory implements IStory{
 		var sequence = new ActionSequence();
 		sequence.add(new Position(kingBoone,greatHall,"Throne"));
 		sequence.add(new SetCameraFocus(kingBoone));
-		sequence.add(new SetDialogue("Thank you so much Bartholomew for finding my jewel key! How can I repay you?"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Thank you so much Bartholomew for finding my jewel key! How can I repay you?"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(kingBoone));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(Bartholomew));
-		sequence.add(new SetDialogue("It was an honor my king! Could you tell me what does jewel key open? "));
-		sequence.add(new ShowDialogue()); 
+		sequence.add(new SetDialog("It was an honor my king! Could you tell me what does jewel key open? "));
+		sequence.add(new ShowDialog()); 
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
 		sequence.add(new SetCameraFocus(kingBoone));
-		sequence.add(new SetDialogue("Well.. no.. a new home would have to suffice"));
-		sequence.add(new ShowDialogue());
+		sequence.add(new SetDialog("Well.. no.. a new home would have to suffice"));
+		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(kingBoone));
 		sequence.add(new Wait(10));
 		sequence.add(new HideDialogue());
