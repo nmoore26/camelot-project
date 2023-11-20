@@ -101,7 +101,7 @@ public class ShortStory implements IStory{
 					Icons.exit,
 					"Open Door",
 					true),
-				ReadScroll);
+				ExitBHome);
 		
 		ExitBHome.addChild(new ActionChoice(
 				ActionNames.Enter.toString(),
