@@ -20,7 +20,7 @@ public class SetDialog implements IAction {
 	}
 	@Override
 	public String toString() {
-		return String.format("%s(%s)", getName(),getDialogue());
+		return String.format("%s(\"%s\")", getName(),getDialogue());
 	}
 }
 
