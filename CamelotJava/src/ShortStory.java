@@ -195,7 +195,9 @@ public class ShortStory implements IStory{
 		TalktoKing2.addChild(new ActionChoice(ActionNames.Enter.toString(),
 				greatHall.getFurniture("Door"), Icons.door,"Enter king's palace",
 				true) , EnterPalace);
+		
 		EnterPalace.addChild(new SelectionChoice("Show Credits"),Credits);
+		
 		StayInPrison.addChild(
 			new ActionChoice(
 				ActionNames.Sleep.toString(),
@@ -350,7 +352,6 @@ public class ShortStory implements IStory{
 		sequence.add(new Create<Place>(city));
 		sequence.combineWith(new CharacterCreation(knight));
 		sequence.add(new Position(knight,city,"Fountain"));
-		sequence.add(new Position(Bartholomew,city,"EastEnd"));
 		sequence.add(new SetDialog("Do you accept the kings quest? [AcceptQuest|Accept Quest?][DeclineQuest|Decline Quest?]"));
 		return sequence;
 	}
@@ -363,12 +364,13 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence getExitBHome() {
 		var sequence = new ActionSequence();
-		sequence.add(new Exit(Bartholomew, BHome.getFurniture("Door"), true));	
+		sequence.add(new Exit(Bartholomew, BHome.getFurniture("Door"), true));
 		return sequence;
 	}
+	
 	private ActionSequence getEntercity() {
 		var sequence = new ActionSequence();
-		sequence.add(new Enter(Bartholomew, city.getFurniture("Door"), true));
+		sequence.add(new Enter(Bartholomew, city.getFurniture("BrownHouseDoor"), true));
 		return sequence;
 	}
 	
