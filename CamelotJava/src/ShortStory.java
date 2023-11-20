@@ -44,7 +44,7 @@ public class ShortStory implements IStory{
 		var start = new Node(NodeLabels.Start.toString());
 		var ReadScroll = new Node(NodeLabels.ReadScroll.toString());
 		var Entercityfromcot = new Node(NodeLabels.EntercityfromCot.toString());
-		var OpenBHomeDoor = new Node (NodeLabels.OpenBHomeDoor,toString());
+		var OpenBHomeDoor = new Node (NodeLabels.OpenBHomeDoor.toString());
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
 		var TalkToKnight = new Node(NodeLabels.TalkToKnight.toString());
 		var EnterPrison = new Node(NodeLabels.EnterPrison.toString());
@@ -92,7 +92,7 @@ public class ShortStory implements IStory{
 				Icons.exit,
 				"Leave House",
 				true),
-			OpenBHomeDoor);
+			ExitBHome);
 		
 		OpenBHomeDoor.addChild(
 				new ActionChoice(
@@ -105,11 +105,7 @@ public class ShortStory implements IStory{
 		
 		ExitBHome.addChild(new ActionChoice(
 				ActionNames.Enter.toString(),
-				city.getFurniture("Door")), 
-				Icons.talk, 
-				"Talk Knight",
-				true),
-			Entercityfromcot);
+				city.getFurniture("Fountain")),Entercityfromcot);
 			
 		Entercityfromcot.addChild(new PositionChoice(Bartholomew,"knight", PositionChoice.Condition.arrived), TalkToKnight);
 		
@@ -329,7 +325,7 @@ public class ShortStory implements IStory{
 	private ActionSequence getReadScroll() {
 		var sequence = new ActionSequence();
 		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Chest")));
-		//sequence.add(new Pickup(Bartholomew,openScroll,BHome.getFurniture("Chest")));
+		sequence.add(new Pickup(Bartholomew,openScroll,BHome.getFurniture("Chest")));
 		sequence.add(new ShowNarration());
 		sequence.add(new Wait(3));
 		sequence.add(new HideNarration());
@@ -370,7 +366,7 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence getEntercity() {
 		var sequence = new ActionSequence();
-		sequence.add(new Enter(Bartholomew, city.getFurniture("BrownHouseDoor"), true));
+		sequence.add(new Enter(Bartholomew, city.getFurniture("Fountain"), true));
 		return sequence;
 	}
 	
