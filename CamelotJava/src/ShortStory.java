@@ -367,6 +367,8 @@ public class ShortStory implements IStory{
 	private ActionSequence getEntercity() {
 		var sequence = new ActionSequence();
 		sequence.add(new Enter(Bartholomew, city.getFurniture("Fountain"), true));
+		sequence.add(new Position(Bartholomew,city,"GreenHouseDoor"));
+
 		return sequence;
 	}
 	
