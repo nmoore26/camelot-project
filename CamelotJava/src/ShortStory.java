@@ -44,7 +44,7 @@ public class ShortStory implements IStory{
 		var start = new Node(NodeLabels.Start.toString());
 		var ReadScroll = new Node(NodeLabels.ReadScroll.toString());
 		var Entercityfromcot = new Node(NodeLabels.EntercityfromCot.toString());
-		///var OpenBHomeDoor = new Node (NodeLabels.OpenBHomeDoor.toString());
+		//var OpenBHomeDoor = new Node (NodeLabels.OpenBHomeDoor.toString());
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
 		var TalkToKnight = new Node(NodeLabels.TalkToKnight.toString());
 		var EnterPrison = new Node(NodeLabels.EnterPrison.toString());
