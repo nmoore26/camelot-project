@@ -26,7 +26,12 @@ public class Enter implements IAction {
 	}
 	@Override
 	public String toString() {
-		return String.format("%s(%s,%s,%s)", getName(), character.getName(), furniture.getName(),fadeIn);
+		if(fadeIn == true) {
+			return String.format("%s(%s,%s,%s)", getName(), character.getName(), furniture.getName(),fadeIn);
+		}else {
+			return String.format("%s(%s,%s)", getName(), character.getName(), furniture.getName());
+		}
+		
 	}
 	
 }

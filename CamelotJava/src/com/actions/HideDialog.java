@@ -1,9 +1,9 @@
 package com.actions;
 
-public class HideDialogue implements IAction {
+public class HideDialog implements IAction {
 	@Override
 	public String getName() {
-		return "HideDialogue";
+		return "HideDialog";
 	}
 
 	@Override
@@ -11,11 +11,11 @@ public class HideDialogue implements IAction {
 		return true;
 	}
 	
-	public HideDialogue() {
-		
+	public HideDialog() {	
 	}
 	@Override
 	public String toString() {
 		return String.format("%s()", getName());
 	}
 }
+

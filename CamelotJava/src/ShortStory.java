@@ -44,7 +44,6 @@ public class ShortStory implements IStory{
 		var start = new Node(NodeLabels.Start.toString());
 		var ReadScroll = new Node(NodeLabels.ReadScroll.toString());
 		var Entercityfromcot = new Node(NodeLabels.EntercityfromCot.toString());
-		//var OpenBHomeDoor = new Node (NodeLabels.OpenBHomeDoor.toString());
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
 		var TalkToKnight = new Node(NodeLabels.TalkToKnight.toString());
 		var EnterPrison = new Node(NodeLabels.EnterPrison.toString());
@@ -92,20 +91,8 @@ public class ShortStory implements IStory{
 				Icons.exit,
 				"Leave House",
 				true),
-			ExitBHome);
-		
-		//OpenBHomeDoor.addChild(
-				//new ActionChoice(
-					//ActionNames.OpenFurniture.toString(),
-					//BHome.getFurniture("Door"),
-					//Icons.exit,
-					//"Open Door",
-					//true),
-				//ExitBHome);
-		
-		ExitBHome.addChild(new ActionChoice(
-				ActionNames.Enter.toString(),
-				city.getFurniture("Fountain")),Entercityfromcot);
+			Entercityfromcot);
+	
 			
 		Entercityfromcot.addChild(new PositionChoice(Bartholomew,"knight", PositionChoice.Condition.arrived), TalkToKnight);
 		
@@ -325,7 +312,6 @@ public class ShortStory implements IStory{
 	private ActionSequence getReadScroll() {
 		var sequence = new ActionSequence();
 		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Chest")));
-		sequence.add(new Pickup(Bartholomew,openScroll,BHome.getFurniture("Chest")));
 		sequence.add(new ShowNarration());
 		sequence.add(new Wait(6));
 		sequence.add(new HideNarration());
@@ -351,13 +337,7 @@ public class ShortStory implements IStory{
 		sequence.add(new SetDialog("Do you accept the kings quest? [AcceptQuest|Accept Quest?][DeclineQuest|Decline Quest?]"));
 		return sequence;
 	}
-	
-	//private ActionSequence getOpenBHomeDoor() {
-		//var sequence = new ActionSequence();
-		//sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Door")));
-		//return sequence;
-	//}
-	
+		
 	private ActionSequence getExitBHome() {
 		var sequence = new ActionSequence();
 		sequence.add(new Exit(Bartholomew, BHome.getFurniture("Door"), true));
@@ -366,9 +346,7 @@ public class ShortStory implements IStory{
 	
 	private ActionSequence getEntercity() {
 		var sequence = new ActionSequence();
-		sequence.add(new Enter(Bartholomew, city.getFurniture("Fountain"), true));
-		sequence.add(new Position(Bartholomew,city,"GreenHouseDoor"));
-
+		sequence.add(new Enter(Bartholomew,city.getFurniture("GreenHouseDoor"),true));
 		return sequence;
 	}
 	
@@ -376,8 +354,8 @@ public class ShortStory implements IStory{
 		var sequence = new ActionSequence();
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(knight));
-		sequence.add(new Wait(20));
-		sequence.add(new HideDialogue());
+		sequence.add(new Wait(10));
+		sequence.add(new HideDialog());
 		return sequence;
 	}
 	
@@ -409,17 +387,17 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(kingBoone));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
 		return sequence;
 	}
 	
 	private ActionSequence kingOpensDoor() {
 		var sequence = new ActionSequence();
+		sequence.add(new HideDialog());
 		sequence.add(new SetDialog("You are free to begin my quest!"));
 		sequence.add(new OpenFurniture(kingBoone, kingsDungeon.getFurniture("CellDoor")));
 		sequence.add(new ShowDialog());
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		return sequence;
 	}
 	private ActionSequence getExitPrison() {
@@ -437,8 +415,8 @@ public class ShortStory implements IStory{
 		var sequence = new ActionSequence();
 		sequence.add(new SetDialog("Where do you want to begin your quest? [Library|Library][Tavern|Tavern][Ruins|Ruins]"));
 		sequence.add(new ShowDialog());
-		sequence.add(new Wait(20));
-		sequence.add(new HideDialogue());
+		sequence.add(new Wait(10));
+		sequence.add(new HideDialog());
 		return sequence;
 	}
 	
@@ -476,7 +454,7 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(DrAliReza));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		sequence.add(new EnableInput(true));
 		return sequence;
 	}
@@ -487,7 +465,7 @@ public class ShortStory implements IStory{
 		sequence.add(new SetDialog("Wow, what a pretty flower! It doesn't look like the key is here."));
 		sequence.add(new ShowDialog());
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		sequence.add(new EnableInput(true));
 		return sequence;
 	}
@@ -499,7 +477,7 @@ public class ShortStory implements IStory{
 				+ "the key is here."));
 		sequence.add(new ShowDialog());
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		sequence.add(new EnableInput(true));
 		return sequence;
 	}
@@ -515,7 +493,7 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(DrAliReza));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		sequence.add(new EnableInput(true));
 		return sequence;
 	}
@@ -530,7 +508,7 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(knight));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		return sequence;
 	}
 	
@@ -578,7 +556,7 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(bartenderMilina));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		return sequence;
 	}
 	private ActionSequence gettalkWithPatron() {
@@ -618,7 +596,7 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		return sequence;
 	}
 	private ActionSequence getLeaveTavern() {
@@ -641,7 +619,7 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		return sequence;
 		
 	}
@@ -663,7 +641,7 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog()); 
 		sequence.add(new SetRight(Bartholomew));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		return sequence;
 	}
 	private ActionSequence getKnightArrestsBandit() {
@@ -673,7 +651,7 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog()); 
 		sequence.add(new SetRight(knight));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		sequence.add(new SetCameraFocus(Bartholomew));
 		sequence.add(new Laugh(Bartholomew));
 		sequence.add(new Position(banditCaspera)); // bandit diassapears
@@ -728,7 +706,7 @@ public class ShortStory implements IStory{
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(kingBoone));
 		sequence.add(new Wait(10));
-		sequence.add(new HideDialogue());
+		sequence.add(new HideDialog());
 		sequence.add(new SetCredits("Congratulations! You Win"));
 		return sequence;
 	}
