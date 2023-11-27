@@ -44,7 +44,7 @@ public class ShortStory implements IStory{
 		var start = new Node(NodeLabels.Start.toString());
 		var ReadScroll = new Node(NodeLabels.ReadScroll.toString());
 		var Entercityfromcot = new Node(NodeLabels.EntercityfromCot.toString());
-		var OpenBHomeDoor = new Node (NodeLabels.OpenBHomeDoor.toString());
+		//var OpenBHomeDoor = new Node (NodeLabels.OpenBHomeDoor.toString());
 		var ExitBHome = new Node(NodeLabels.ExitBHome.toString());
 		var TalkToKnight = new Node(NodeLabels.TalkToKnight.toString());
 		var EnterPrison = new Node(NodeLabels.EnterPrison.toString());
@@ -94,14 +94,14 @@ public class ShortStory implements IStory{
 				true),
 			ExitBHome);
 		
-		OpenBHomeDoor.addChild(
-				new ActionChoice(
-					ActionNames.OpenFurniture.toString(),
-					BHome.getFurniture("Door"),
-					Icons.exit,
-					"Open Door",
-					true),
-				ExitBHome);
+		//OpenBHomeDoor.addChild(
+				//new ActionChoice(
+					//ActionNames.OpenFurniture.toString(),
+					//BHome.getFurniture("Door"),
+					//Icons.exit,
+					//"Open Door",
+					//true),
+				//ExitBHome);
 		
 		ExitBHome.addChild(new ActionChoice(
 				ActionNames.Enter.toString(),
@@ -261,7 +261,7 @@ public class ShortStory implements IStory{
 		map.add(NodeLabels.Init.toString(), getInit());
 		map.add(NodeLabels.Start.toString(), getStartSequence());
 		map.add(NodeLabels.ReadScroll.toString(), getReadScroll());
-		map.add(NodeLabels.OpenBHomeDoor.toString(), getOpenBHomeDoor());
+		//map.add(NodeLabels.OpenBHomeDoor.toString(), getOpenBHomeDoor());
 		map.add(NodeLabels.ExitBHome.toString(), getExitBHome());
 		map.add(NodeLabels.EntercityfromCot.toString(), getEntercity());
 		map.add(NodeLabels.TalkToKnight.toString(), getTalkToKnight());
@@ -327,23 +327,23 @@ public class ShortStory implements IStory{
 		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Chest")));
 		sequence.add(new Pickup(Bartholomew,openScroll,BHome.getFurniture("Chest")));
 		sequence.add(new ShowNarration());
-		sequence.add(new Wait(3));
+		sequence.add(new Wait(6));
 		sequence.add(new HideNarration());
 		sequence.add(new SetNarration("I have lost my precious jewel key."));
 		sequence.add(new ShowNarration());
-		sequence.add(new Wait(3));
+		sequence.add(new Wait(6));
 		sequence.add(new HideNarration());
 		sequence.add(new SetNarration("You are the best investigator in the kingdom."));
 		sequence.add(new ShowNarration());
-		sequence.add(new Wait(3));
+		sequence.add(new Wait(6));
 		sequence.add(new HideNarration());
 		sequence.add(new SetNarration("I need you to help me find my jewel key and who stole it."));
 		sequence.add(new ShowNarration());
-		sequence.add(new Wait(3));
+		sequence.add(new Wait(6));
 		sequence.add(new HideNarration());
 		sequence.add(new SetNarration("Please tell my knight whether you accept my quest."));
 		sequence.add(new ShowNarration());
-		sequence.add(new Wait(3));
+		sequence.add(new Wait(6));
 		sequence.add(new HideNarration());
 		sequence.add(new Create<Place>(city));
 		sequence.combineWith(new CharacterCreation(knight));
@@ -352,11 +352,11 @@ public class ShortStory implements IStory{
 		return sequence;
 	}
 	
-	private ActionSequence getOpenBHomeDoor() {
-		var sequence = new ActionSequence();
-		sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Door")));
-		return sequence;
-	}
+	//private ActionSequence getOpenBHomeDoor() {
+		//var sequence = new ActionSequence();
+		//sequence.add(new OpenFurniture(Bartholomew,BHome.getFurniture("Door")));
+		//return sequence;
+	//}
 	
 	private ActionSequence getExitBHome() {
 		var sequence = new ActionSequence();
