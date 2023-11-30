@@ -108,9 +108,9 @@ public class ShortStory implements IStory{
 				true),
 			TalkToKing);
 		
-		TalkToKing.addChild(new SelectionChoice("AcceptQuest"), kingOpensDoor);
+		TalkToKing.addChild(new SelectionChoice(ChoiceLabels.AcceptQuest.toString()), kingOpensDoor);
 		
-		TalkToKing.addChild(new SelectionChoice("DeclineQuest"), StayInPrison);
+		TalkToKing.addChild(new SelectionChoice(ChoiceLabels.DeclineQuest.toString()), StayInPrison);
 		
 		kingOpensDoor.addChild(
 			new ActionChoice(
@@ -120,7 +120,7 @@ public class ShortStory implements IStory{
 				"Open door",
 				true),
 			ExitPrison);
-		TalkToKnight.addChild(new SelectionChoice("DeclineQuest"), EnterPrison);
+		TalkToKnight.addChild(new SelectionChoice(ChoiceLabels.DeclineQuest.toString()), EnterPrison);
 		TalkLibrarian.addChild(new PositionChoice(Bartholomew,
 				"Stand", PositionChoice.Condition.arrived), Desk);
 		Desk.addChild(new PositionChoice(Bartholomew,"Bookcase4",PositionChoice.Condition.arrived), Bookshelf4 );
@@ -133,8 +133,8 @@ public class ShortStory implements IStory{
 				true),
 				ExitLibrary);
 		ExitLibrary.addChild(new ActionChoice(ActionNames.Face.toString(),knight,Icons.talk,"Talk to Knight",true), KnightDialoguefromLibrary);
-		KnightDialoguefromLibrary.addChild(new SelectionChoice("Tavern"), EnterTavern);
-		KnightDialoguefromLibrary.addChild(new SelectionChoice("Ruins"), EnterRuins);
+		KnightDialoguefromLibrary.addChild(new SelectionChoice(ChoiceLabels.Tavern.toString()), EnterTavern);
+		KnightDialoguefromLibrary.addChild(new SelectionChoice(ChoiceLabels.Ruins.toString()), EnterRuins);
 		EnterTavern.addChild(new ActionChoice(ActionNames.Face.toString(),
 				bartenderMilina,
 				Icons.talk,
@@ -178,7 +178,7 @@ public class ShortStory implements IStory{
 				greatHall.getFurniture("Door"), Icons.door,"Enter king's palace",
 				true) , EnterPalace);
 		
-		EnterPalace.addChild(new SelectionChoice("Show Credits"),Credits);
+		EnterPalace.addChild(new SelectionChoice(ChoiceLabels.ShowCredits.toString()),Credits);
 		
 		StayInPrison.addChild(
 			new ActionChoice(
@@ -198,7 +198,7 @@ public class ShortStory implements IStory{
 				true),
 			TalkToKing);
 		
-		ExitPrison.addChild(new SelectionChoice("Library"), EnterLibrary);
+		ExitPrison.addChild(new SelectionChoice(ChoiceLabels.Libary.toString()), EnterLibrary);
 		
 		EnterLibrary.addChild(
 			new ActionChoice(
@@ -241,6 +241,10 @@ public class ShortStory implements IStory{
 		cupOfBeer = new Item(ThingNames.cupOfBeer.toString(),Items.Cup);
 		
 	}	
+	
+	public enum ChoiceLabels{
+		AcceptQuest, DeclineQuest, Libary, Tavern, Ruins, ShowCredits
+	}
 		
 	public ActionMap getMap() {
 		var map = new ActionMap();
@@ -360,7 +364,7 @@ public class ShortStory implements IStory{
 		var sequence = new ActionSequence();
 		sequence.add(new ShowDialog());
 		sequence.add(new SetRight(knight));
-		sequence.add(new Wait(20));
+		sequence.add(new Wait(5));
 		sequence.add(new HideDialog());
 		return sequence;
 	}
