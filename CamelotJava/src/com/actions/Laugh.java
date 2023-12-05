@@ -12,7 +12,7 @@ public class Laugh implements IAction {
 	@Override
 	public boolean getShouldWait() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	public Laugh(Character character) {
 		this.character = character;
