@@ -172,7 +172,7 @@ public class ShortStory implements IStory{
 				"Face Librarian",
 				true), TalkLibrarian2);
 		TalkLibrarian2.addChild(new ActionChoice(
-				ActionNames.Exit.toString(),
+				ActionNames.OpenFurniture.toString(),
 				library.getFurniture("Door"),
 				Icons.door,
 				"Leave house",
@@ -592,7 +592,7 @@ public class ShortStory implements IStory{
 	private ActionSequence getExitLibrary() {
 		var sequence = new ActionSequence();
 		sequence.add(new Exit(Bartholomew, library.getFurniture("Door"), true));
-		sequence.add(new Position(Bartholomew,city,"RedHouseDoor"));
+		sequence.add(new Enter(Bartholomew,city.getFurniture("RedHouseDoor"),true));
 		return sequence;
 	}
 	private ActionSequence getKnightDialogueFromLibrary() {
